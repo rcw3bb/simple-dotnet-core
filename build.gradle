@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+}
+
+group 'xyz.ronella.gradle.plugin'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    maven {
+        url 'https://repo.ronella.xyz/artifactory/java-central'
+        credentials {
+            username "${artifactoryUsername}"
+            password "${artifactoryPassword}"
+        }
+    }
+}
+
+dependencies {
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.5.2'
+    testCompile group: 'org.mockito', name: 'mockito-core', version: '3.1.0'
+}
