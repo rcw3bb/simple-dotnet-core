@@ -21,18 +21,31 @@ class DotNetCorePlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
-        project.task('dotnetBuild', type: DotNetBuildTask)
-        project.task('dotnetClean', type: DotNetCleanTask)
-        project.task('dotnetInfo', type: DotNetInfoTask)
-        project.task('dotnetMsBuild', type: DotNetMsBuildTask)
-        project.task('dotnetNewConsole', type: DotNetNewConsoleTask)
-        project.task('dotnetPack', type: DotNetPackTask)
-        project.task('dotnetPublish', type: DotNetPublishTask)
-        project.task('dotnetRestore', type: DotNetRestoreTask)
-        project.task('dotnetTask', type: DotNetTask)
-        project.task('dotnetTest', type: DotNetTestTask)
-        project.task('dotnetVersion', type: DotNetVersionTask)
-        project.task('dotnetRun', type: DotNetRunTask)
-        project.task('dotnetCreateGlobalJson', type: DotNetCreateGlobalJsonTask)
+        project.task('dotnetBuild', type: DotNetBuildTask,
+                description: 'Build a .Net project.')
+        project.task('dotnetClean', type: DotNetCleanTask,
+                description: 'Clean build outputs of a .NET project.')
+        project.task('dotnetInfo', type: DotNetInfoTask,
+                description: 'Display .NET Core information.')
+        project.task('dotnetMsBuild', type: DotNetMsBuildTask,
+                description: 'Run Microsoft Build Engine (MSBuild) command.')
+        project.task('dotnetNewConsole', type: DotNetNewConsoleTask,
+                description: 'Create a new .NET Console project.')
+        project.task('dotnetPack', type: DotNetPackTask,
+                description: 'Create a NuGet package.')
+        project.task('dotnetPublish', type: DotNetPublishTask,
+                description: 'Publish a .NET project for deployment.')
+        project.task('dotnetRestore', type: DotNetRestoreTask,
+                description: 'Restore dependencies specified in a .NET project.')
+        project.task('dotnetTask', type: DotNetTask,
+                description: 'Execute any available dotnet core commands.')
+        project.task('dotnetTest', type: DotNetTestTask,
+                description: 'Run unit tests using the test runner specified in a .NET project.')
+        project.task('dotnetVersion', type: DotNetVersionTask,
+                description: 'Display .NET Core SDK version is use.')
+        project.task('dotnetRun', type: DotNetRunTask,
+                description: 'Build and run a .NET project output.')
+        project.task('dotnetCreateGlobalJson', type: DotNetCreateGlobalJsonTask,
+                description: 'Generates a global.json file.')
     }
 }
