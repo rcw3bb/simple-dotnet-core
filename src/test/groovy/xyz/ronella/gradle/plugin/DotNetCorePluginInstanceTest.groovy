@@ -28,7 +28,7 @@ class DotNetCorePluginInstanceTest {
     @BeforeEach
     public void initProject() {
         project = ProjectBuilder.builder().build()
-        project.pluginManager.apply 'simple.dotnet.core'
+        project.pluginManager.apply 'xyz.ronella.dotnet.core'
     }
 
     @Test
@@ -45,38 +45,47 @@ class DotNetCorePluginInstanceTest {
     public void testInfoTask() {
         assertTrue(project.tasks.dotnetInfo instanceof DotNetInfoTask)
     }
+
     @Test
     public void testMsBuildTask() {
         assertTrue(project.tasks.dotnetMsBuild instanceof DotNetMsBuildTask)
     }
+
     @Test
     public void testNewConsoleTask() {
         assertTrue(project.tasks.dotnetNewConsole instanceof DotNetNewConsoleTask)
     }
+
     @Test
     public void testPackTask() {
         assertTrue(project.tasks.dotnetPack instanceof DotNetPackTask)
     }
+
     @Test
     public void testPublishTask() {
         assertTrue(project.tasks.dotnetPublish instanceof DotNetPublishTask)
     }
+
     @Test
     public void testRestoreTask() {
         assertTrue(project.tasks.dotnetRestore instanceof DotNetRestoreTask)
     }
+
     @Test
     public void testRunTask() {
         assertTrue(project.tasks.dotnetRun instanceof DotNetRunTask)
     }
+
     @Test
     public void testDotNetTask() {
         assertTrue(project.tasks.dotnetTask instanceof DotNetTask)
     }
+
     @Test
     public void testTestTask() {
         assertTrue(project.tasks.dotnetTest instanceof DotNetTestTask)
     }
+
     @Test
     public void testVersionTask() {
         assertTrue(project.tasks.dotnetVersion instanceof DotNetVersionTask)
