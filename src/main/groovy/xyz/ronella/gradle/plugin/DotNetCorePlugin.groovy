@@ -5,6 +5,7 @@ import org.gradle.api.Project
 
 import xyz.ronella.gradle.plugin.task.DotNetBuildTask
 import xyz.ronella.gradle.plugin.task.DotNetCleanTask
+import xyz.ronella.gradle.plugin.task.DotNetCreateGlobalJsonTask
 import xyz.ronella.gradle.plugin.task.DotNetInfoTask
 import xyz.ronella.gradle.plugin.task.DotNetMsBuildTask
 import xyz.ronella.gradle.plugin.task.DotNetNewConsoleTask
@@ -32,5 +33,6 @@ class DotNetCorePlugin implements Plugin<Project> {
         project.task('dotnetTest', type: DotNetTestTask)
         project.task('dotnetVersion', type: DotNetVersionTask)
         project.task('dotnetRun', type: DotNetRunTask)
+        project.task('dotnetCreateGlobalJson', type: DotNetCreateGlobalJsonTask)
     }
 }

@@ -33,11 +33,6 @@ class DotNetCorePluginCommandTest {
     }
 
     @Test
-    public void testNewConsoleTask() {
-        assertEquals('new', project.tasks.dotnetNewConsole.command)
-    }
-
-    @Test
     public void testPackTask() {
         assertEquals('pack', project.tasks.dotnetPack.command)
     }
