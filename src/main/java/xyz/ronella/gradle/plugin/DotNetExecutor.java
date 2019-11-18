@@ -5,7 +5,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 public class DotNetExecutor {
 
@@ -77,6 +77,11 @@ public class DotNetExecutor {
             return this;
         }
 
+        public String getDotNetExe() {
+            DotNetExecutor executor = new DotNetExecutor();
+            return executor.getDotNetExe();
+        }
+
         public String getCommand() {
             DotNetExecutor executor = new DotNetExecutor();
             if (args.size()>0) {
@@ -85,8 +90,8 @@ public class DotNetExecutor {
             return executor.getCommand();
         }
 
-        public void execute(Consumer<String> logic) {
-            logic.accept(getCommand());
+        public void execute(BiConsumer<String, List<String>> logic) {
+            logic.accept(getDotNetExe(), args);
         }
     }
 

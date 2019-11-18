@@ -40,13 +40,32 @@ public class DotNetExecutorTest {
     }
 
     @Test
-    public void testMultipleArgumentsWithExecute() {
-        StringBuilder executeCommand = new StringBuilder();
+    public void testMultipleArgumentsWithExecuteBiConsumerCommand() {
+        StringBuilder command = new StringBuilder();
+        StringBuilder args = new StringBuilder();
         DotNetExecutor.build()
                 .addArgs("arg1")
                 .addArgs("arg2")
-                .execute(executeCommand::append);
-       assertTrue(executeCommand.toString().matches(".*dotnet.exe arg1 arg2$"));
+                .execute((___command, ___args) -> {
+                    command.append(___command);
+                    args.append(String.join(" ", ___args));
+                });
+        assertTrue(command.toString().matches(".*dotnet.exe$"));
     }
+
+    @Test
+    public void testMultipleArgumentsWithExecuteBiConsumerArgs() {
+        StringBuilder command = new StringBuilder();
+        StringBuilder args = new StringBuilder();
+        DotNetExecutor.build()
+                .addArgs("arg1")
+                .addArgs("arg2")
+                .execute((___command, ___args) -> {
+                    command.append(___command);
+                    args.append(String.join(" ", ___args));
+                });
+        assertEquals("arg1 arg2", args.toString());
+    }
+
 
 }
