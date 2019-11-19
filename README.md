@@ -1,6 +1,6 @@
 # Simple .Net Core Gradle Plugin
 
-The plugin that allows you access .Net Core SDKs dotnet command inside gradle.
+The plugin that allows you access to dotnet commands inside gradle as task.
 
 ## Pre-requisite
 
