@@ -18,11 +18,11 @@ In your **build.gradle** file add the following plugin:
 
 ```groovy
 plugins {
-    id 'xyz.ronella.dotnet.core'
+    id "xyz.ronella.dotnet.core" version "1.0.0-GA"
 }
 ```
 
-> A **Simple .Net Core tasks** group will be added to the available tasks at your disposal. You can use the following command to see it:
+> A **Simple .Net Core tasks** group will be added to the available tasks at your disposal. You can use the following command to see them:
 >
 > ```
 > gradlew tasks --group "Simple .NET Core"
@@ -50,13 +50,13 @@ plugins {
 
 ## Using dotnetTask
 
-All the member tasks of Simple .Net Core group is a child for **dotnetTask**. The child task normally just have a default command and/or arguments *(e.g. **dotnetNewConsole** task has **new as the command** and **console as an argument**)*. 
+All the member tasks of Simple .Net Core group is a child for **dotnetTask**. The **child task** normally just have a default command and/or arguments *(e.g. **dotnetNewConsole** task has **new as the command** and **console as an argument**)*. 
 
-Whatever you can do with the **dotnet command** in console you can do it inside with this task. 
+Whatever you can do with the **dotnet command** in console you can do it in gradle with this task. 
 
 ### Example
 
-Translate the following **dotnet publish command** *(i.e. with .NetCore SDK 3.0)* into a task in gradle:
+Translate the following **dotnet publish command** *(i.e. with .Net Core SDK 3.0)* into a task in gradle:
 
 ```
 dotnet publish -r win-x64 -c Release /p:PublishSingleFile=true /p:PublishTrimmed=true
