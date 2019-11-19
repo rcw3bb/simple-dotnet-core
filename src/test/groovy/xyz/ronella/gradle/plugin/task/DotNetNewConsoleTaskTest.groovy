@@ -5,8 +5,7 @@ import org.gradle.testfixtures.ProjectBuilder
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-import static org.junit.jupiter.api.Assertions.assertEquals
-import static org.junit.jupiter.api.Assertions.assertEquals
+import static org.junit.jupiter.api.Assertions.*
 
 class DotNetNewConsoleTaskTest {
 
@@ -25,7 +24,7 @@ class DotNetNewConsoleTaskTest {
 
     @Test
     public void testArgument() {
-        assertEquals('console', project.tasks.dotnetNewConsole.args[0] as String)
+        assertEquals('console', project.tasks.dotnetNewConsole.allArgs[0] as String)
     }
 
 }

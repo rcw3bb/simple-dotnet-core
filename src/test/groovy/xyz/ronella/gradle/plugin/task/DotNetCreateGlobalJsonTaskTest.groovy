@@ -24,7 +24,7 @@ class DotNetCreateGlobalJsonTaskTest {
 
     @Test
     public void testArgument() {
-        assertEquals('globaljson', project.tasks.dotnetCreateGlobalJson.args[0] as String)
+        assertEquals('globaljson', project.tasks.dotnetCreateGlobalJson.allArgs[0] as String)
     }
 
 }

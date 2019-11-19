@@ -6,13 +6,18 @@ import xyz.ronella.gradle.plugin.DotNetExecutor
 
 class DotNetTask extends DefaultTask {
     String command = ''
+    protected String[] internalArgs = []
     String[] args = []
+
+    public String[] getAllArgs() {
+        return internalArgs+=args
+    }
 
     @TaskAction
     def executeCommand() {
         DotNetExecutor.build()
             .addArg(command)
-            .addArgs(args)
+            .addArgs(allArgs)
             .execute { String ___command, List<String> ___args ->
                 project.exec {
                     executable ___command
