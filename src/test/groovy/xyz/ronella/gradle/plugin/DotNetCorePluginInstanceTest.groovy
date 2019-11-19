@@ -11,7 +11,7 @@ import org.gradle.testfixtures.ProjectBuilder
 import xyz.ronella.gradle.plugin.task.DotNetBuildTask
 import xyz.ronella.gradle.plugin.task.DotNetCleanTask
 import xyz.ronella.gradle.plugin.task.DotNetInfoTask
-import xyz.ronella.gradle.plugin.task.DotNetMsBuildTask
+import xyz.ronella.gradle.plugin.task.DotNetMSBuildTask
 import xyz.ronella.gradle.plugin.task.DotNetNewConsoleTask
 import xyz.ronella.gradle.plugin.task.DotNetPackTask
 import xyz.ronella.gradle.plugin.task.DotNetPublishTask
@@ -48,7 +48,7 @@ class DotNetCorePluginInstanceTest {
 
     @Test
     public void testMsBuildTask() {
-        assertTrue(project.tasks.dotnetMsBuild instanceof DotNetMsBuildTask)
+        assertTrue(project.tasks.dotnetMSBuild instanceof DotNetMSBuildTask)
     }
 
     @Test

@@ -29,7 +29,7 @@ class DotNetCorePluginCommandTest {
 
     @Test
     public void testMsBuildTask() {
-        assertEquals('msbuild', project.tasks.dotnetMsBuild.command)
+        assertEquals('msbuild', project.tasks.dotnetMSBuild.command)
     }
 
     @Test
