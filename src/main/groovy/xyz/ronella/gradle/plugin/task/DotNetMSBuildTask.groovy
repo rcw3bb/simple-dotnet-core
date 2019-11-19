@@ -1,5 +1,11 @@
 package xyz.ronella.gradle.plugin.task
 
+/**
+ * The task for running the MSBuild engine.
+ *
+ * @author Ron Webb
+ * @since 2019-11-19
+ */
 class DotNetMSBuildTask extends DotNetTask {
     public DotNetMSBuildTask() {
         super()

@@ -1,5 +1,11 @@
 package xyz.ronella.gradle.plugin.task
 
+/**
+ * The task for restoring dependencies of the .NET project.
+ *
+ * @author Ron Webb
+ * @since 2019-11-19
+ */
 class DotNetRestoreTask extends DotNetTask {
     public DotNetRestoreTask() {
         super()

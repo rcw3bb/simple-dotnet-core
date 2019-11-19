@@ -6,6 +6,7 @@ import xyz.ronella.gradle.plugin.DotNetExecutor
 
 /**
  * The base task implementation.
+ *
  * @author Ron Webb
  * @since 2019-11-19
  */

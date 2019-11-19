@@ -1,5 +1,11 @@
 package xyz.ronella.gradle.plugin.task
 
+/**
+ * The task for generating a global.json file.
+ *
+ * @author Ron Webb
+ * @since 2019-11-19
+ */
 class DotNetCreateGlobalJsonTask extends DotNetTask {
     public DotNetCreateGlobalJsonTask() {
         super()

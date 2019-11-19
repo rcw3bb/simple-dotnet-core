@@ -7,6 +7,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
 
+/**
+ * The executor of the dotnet commands.
+ *
+ * @author Ron Webb
+ * @since 2019-11-29
+ */
 public class DotNetExecutor {
 
     private final static String DOTNET_EXE = "dotnet.exe";
