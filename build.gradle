@@ -24,7 +24,7 @@ gradlePlugin {
 }
 
 group 'xyz.ronella.gradle.plugin'
-version '1.0.0-GA'
+version '1.1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
