@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 
 /**
  * The executor of the dotnet commands.
@@ -33,6 +34,15 @@ public class DotNetExecutor {
         return null;
     }
 
+    private String getDotNetExeByProjectDir() {
+        String projectDir=Paths.get(".", ".dotnet").toAbsolutePath().toString();
+        Path programFile = Paths.get(projectDir, "dotnet", DOTNET_EXE);
+        if (programFile.toFile().exists()) {
+            return programFile.toString();
+        }
+        return null;
+    }
+
     private String getDotNetExeByLocalAppData() {
         String localAppData=System.getenv("LOCALAPPDATA");
         Path programFile = Paths.get(localAppData, "Microsoft", "dotnet", DOTNET_EXE);
@@ -52,22 +62,24 @@ public class DotNetExecutor {
 
     private String getDotNetExe() {
 
-        String byEnvVar=getDotNetExeByEnvVar();
-        if (null!=byEnvVar)  {
-            return byEnvVar;
+        List<Supplier<String>> finder = Arrays.asList(
+                this::getDotNetExeByEnvVar,
+                this::getDotNetExeByProjectDir,
+                this::getDotNetExeByLocalAppData,
+                this::getDotNetExeByProgramFile,
+                () -> DOTNET_EXE
+        );
+
+        String command = null;
+
+        for (Supplier<String> resolver : finder) {
+            command = resolver.get();
+            if (null!=command) {
+                break;
+            }
         }
 
-        String byAppData = getDotNetExeByLocalAppData();
-        if (null!=byAppData) {
-            return byAppData;
-        }
-
-        String byProgramFile = getDotNetExeByProgramFile();
-        if (null!=byProgramFile) {
-            return byProgramFile;
-        }
-
-        return DOTNET_EXE;
+        return command;
     }
 
     private String getCommand() {
