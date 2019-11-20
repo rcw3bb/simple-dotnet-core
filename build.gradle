@@ -8,8 +8,8 @@ plugins {
 pluginBundle {
     website = 'https://github.com/rcw3bb/simple-dotnet-core'
     vcsUrl = 'https://github.com/rcw3bb/simple-dotnet-core'
-    tags = ['.net core sdk', '.net sdk', '.net core', 'core', '.net', 'dotnet', 'plugins', 'dotnet core'
-            , 'dotnet core sdk']
+    tags = ['.net core sdk', '.net sdk', '.net core', 'core', '.net', 'dotnet', 'dotnet core'
+            , 'dotnet core sdk', 'ronella']
 }
 
 gradlePlugin {

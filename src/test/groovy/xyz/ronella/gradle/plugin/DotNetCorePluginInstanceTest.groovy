@@ -1,5 +1,7 @@
 package xyz.ronella.gradle.plugin
 
+import xyz.ronella.gradle.plugin.task.DotNetListSDKsTask
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach
@@ -89,6 +91,11 @@ class DotNetCorePluginInstanceTest {
     @Test
     public void testVersionTask() {
         assertTrue(project.tasks.dotnetVersion instanceof DotNetVersionTask)
+    }
+
+    @Test
+    public void testListSDKsTask() {
+        assertTrue(project.tasks.dotnetListSDKs instanceof DotNetListSDKsTask)
     }
 
 }
