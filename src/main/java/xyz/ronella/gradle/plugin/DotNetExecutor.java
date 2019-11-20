@@ -33,6 +33,15 @@ public class DotNetExecutor {
         return null;
     }
 
+    private String getDotNetExeByLocalAppData() {
+        String localAppData=System.getenv("LOCALAPPDATA");
+        Path programFile = Paths.get(localAppData, "Microsoft", "dotnet", DOTNET_EXE);
+        if (programFile.toFile().exists()) {
+            return programFile.toString();
+        }
+        return null;
+    }
+
     private String getDotNetExeByProgramFile() {
         Path programFile = Paths.get("C:", "Program Files", "dotnet", DOTNET_EXE);
         if (programFile.toFile().exists()) {
@@ -46,6 +55,11 @@ public class DotNetExecutor {
         String byEnvVar=getDotNetExeByEnvVar();
         if (null!=byEnvVar)  {
             return byEnvVar;
+        }
+
+        String byAppData = getDotNetExeByLocalAppData();
+        if (null!=byAppData) {
+            return byAppData;
         }
 
         String byProgramFile = getDotNetExeByProgramFile();
