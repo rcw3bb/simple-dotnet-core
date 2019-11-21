@@ -28,6 +28,7 @@ class DotNetCorePlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
+        def extension = project.extensions.create('simple_dotnet', DotNetCorePluginExtension)
         project.task('dotnetBuild', type: DotNetBuildTask)
         project.task('dotnetClean', type: DotNetCleanTask)
         project.task('dotnetInfo', type: DotNetInfoTask)

@@ -3,18 +3,27 @@ package xyz.ronella.gradle.plugin;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.Paths;
+
 public class DotNetExecutorTest {
+
+    public String getBaseDir() {
+        return Paths.get(".").toAbsolutePath().toString();
+    }
+
+    public DotNetExecutor.DotNetExecutorBuilder getDotNetExecutorBuilder() {
+        return DotNetExecutor.build();
+    }
 
     @Test
     public void testNoArgument() {
-        String command = DotNetExecutor.build()
-                .getCommand();
+        String command = getDotNetExecutorBuilder().getCommand();
         assertTrue(command.matches(".*dotnet.exe$"));
     }
 
     @Test
     public void testSingleArgument() {
-        String command = DotNetExecutor.build()
+        String command = getDotNetExecutorBuilder()
                 .addArgs("arg1")
                 .getCommand();
         assertTrue(command.matches(".*dotnet.exe arg1$"));
@@ -22,7 +31,7 @@ public class DotNetExecutorTest {
 
     @Test
     public void testMultipleArgumentsOnSingleMethod() {
-        String command = DotNetExecutor.build()
+        String command = getDotNetExecutorBuilder()
                 .addArgs("arg1", "arg2")
                 .getCommand();
         assertTrue(command.matches(".*dotnet.exe arg1 arg2$"));
@@ -30,7 +39,7 @@ public class DotNetExecutorTest {
 
     @Test
     public void testMultipleArgumentsOnMultipleMethod() {
-        String command = DotNetExecutor.build()
+        String command = getDotNetExecutorBuilder()
                 .addArgs("arg1")
                 .addArgs("arg2")
                 .getCommand();
@@ -41,7 +50,7 @@ public class DotNetExecutorTest {
     public void testMultipleArgumentsWithExecuteBiConsumerCommand() {
         StringBuilder command = new StringBuilder();
         StringBuilder args = new StringBuilder();
-        DotNetExecutor.build()
+        getDotNetExecutorBuilder()
                 .addArgs("arg1")
                 .addArgs("arg2")
                 .execute((___command, ___args) -> {
@@ -55,7 +64,7 @@ public class DotNetExecutorTest {
     public void testMultipleArgumentsWithExecuteBiConsumerArgs() {
         StringBuilder command = new StringBuilder();
         StringBuilder args = new StringBuilder();
-        DotNetExecutor.build()
+        getDotNetExecutorBuilder()
                 .addArgs("arg1")
                 .addArgs("arg2")
                 .execute((___command, ___args) -> {

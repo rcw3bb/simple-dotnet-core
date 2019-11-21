@@ -1,7 +1,6 @@
 package xyz.ronella.gradle.plugin;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import groovy.json.JsonSlurper;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -11,6 +10,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -18,18 +18,18 @@ public class DotNetCoreSDKInstaller {
 
     private static final String LOCAL_DOTNET_DIR = ".dotnet";
 
-    public String getVersionFromGlobalJson() {
+    public String getVersionFromGlobalJson(String baseDir) {
         final String GLOBAL_JSON = "global.json";
 
-        Path jsonPath = Paths.get(".", GLOBAL_JSON).toAbsolutePath();
+        Path jsonPath = Paths.get(baseDir, GLOBAL_JSON).toAbsolutePath();
         File jsonFile = jsonPath.toFile();
         String version = null;
 
         if (jsonFile.exists()) {
-            JSONParser jsonParser = new JSONParser();
+            JsonSlurper jsonParser = new JsonSlurper();
             try {
-                JSONObject jsonObject = (JSONObject) jsonParser.parse(new FileReader(jsonPath.toString()));
-                JSONObject sdkObject = (JSONObject) jsonObject.get("sdk");
+                Map jsonObject = (Map) jsonParser.parse(new FileReader(jsonPath.toString()));
+                Map sdkObject = (Map) jsonObject.get("sdk");
                 if (null!=sdkObject) {
                     version = (String) sdkObject.get("version");
                 }
@@ -84,7 +84,7 @@ public class DotNetCoreSDKInstaller {
 
     public List<String> getInstalledSDKVersions() {
         final List<String> versions = new ArrayList<>();
-        String dotNetCommand = DotNetExecutor.build().getDotNetExe();
+        String dotNetCommand = getDotNetExecutorBuilder().getDotNetExe();
 
         if (null!=dotNetCommand) {
             List<String> command = new ArrayList<>();
@@ -103,10 +103,12 @@ public class DotNetCoreSDKInstaller {
         return versions.stream().map(___item -> ___item.split("\\s")[0]).collect(Collectors.toList());
     }
 
-    public void installDotNetSdk() {
-        String version = getVersionFromGlobalJson();
+    public DotNetExecutor.DotNetExecutorBuilder getDotNetExecutorBuilder() {
+        return DotNetExecutor.build();
+    }
 
-        if (null!=DotNetExecutor.build().getDotNetExe() && null==version) {
+    public void installDotNetSdk(String version) {
+        if (null!=getDotNetExecutorBuilder().getDotNetExe() && null==version) {
             System.out.println("global.json with SDK version was not found.");
             return;
         }
@@ -114,7 +116,7 @@ public class DotNetCoreSDKInstaller {
         List<String> installedVersions = getInstalledSDKVersions();
 
         if (null!=installedVersions && installedVersions.contains(version)) {
-            System.out.println(String.format(".Net Core SDK v%s was already installed", version));
+            System.out.println(String.format("Using .Net Core SDK v%s", version));
             return;
         }
 

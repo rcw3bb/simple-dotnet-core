@@ -3,6 +3,7 @@ package xyz.ronella.gradle.plugin.task
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
+
 import xyz.ronella.gradle.plugin.DotNetExecutor
 
 /**
@@ -13,10 +14,11 @@ import xyz.ronella.gradle.plugin.DotNetExecutor
  */
 class DotNetTask extends DefaultTask {
 
+    protected String[] internalArgs = []
+    protected String[] postArguments = []
+
     @Input
     String command = ''
-
-    protected String[] internalArgs = []
 
     @Input
     String[] args = []
@@ -28,15 +30,25 @@ class DotNetTask extends DefaultTask {
 
     @Input
     public String[] getAllArgs() {
-        return internalArgs+=args
+        return internalArgs + args + postArguments
     }
 
     @TaskAction
     def executeCommand() {
+        String baseDir = project.extensions.simple_dotnet.baseDir
+        if (null==baseDir) {
+            throw new RuntimeException("simple_dotnet.baseDir property is not set.")
+        }
+
         DotNetExecutor.build()
+            .addBaseDir(baseDir)
             .addArg(command)
             .addArgs(allArgs)
             .execute { String ___command, List<String> ___args ->
+                String[] fullCommand = [___command]
+                fullCommand+=___args.toArray()
+                println(fullCommand.join(" "))
+
                 project.exec {
                     executable ___command
                     args ___args

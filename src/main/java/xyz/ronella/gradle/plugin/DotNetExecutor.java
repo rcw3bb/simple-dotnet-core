@@ -94,6 +94,12 @@ public class DotNetExecutor {
         private DotNetExecutorBuilder() {}
 
         private List<String> args = new ArrayList<String>();
+        private String baseDir;
+
+        public DotNetExecutorBuilder addBaseDir(String baseDir) {
+            this.baseDir = baseDir;
+            return this;
+        }
 
         public DotNetExecutorBuilder addArg(String arg) {
             if (null!=arg) {
@@ -109,13 +115,17 @@ public class DotNetExecutor {
             return this;
         }
 
+        private DotNetExecutor getDotNetExecutor() {
+            return new DotNetExecutor();
+        }
+
         public String getDotNetExe() {
-            DotNetExecutor executor = new DotNetExecutor();
+            DotNetExecutor executor = getDotNetExecutor();
             return executor.getDotNetExe();
         }
 
         public String getCommand() {
-            DotNetExecutor executor = new DotNetExecutor();
+            DotNetExecutor executor = getDotNetExecutor();
             if (args.size()>0) {
                 executor.setArgs(args);
             }
@@ -124,11 +134,14 @@ public class DotNetExecutor {
 
         public void execute(BiConsumer<String, List<String>> logic) {
             String dotnetExe = getDotNetExe();
-            if (null==dotnetExe) {
-                DotNetCoreSDKInstaller installer = new DotNetCoreSDKInstaller();
-                installer.installDotNetSdk();
+            DotNetCoreSDKInstaller installer = new DotNetCoreSDKInstaller();
+            String globalVersion = installer.getVersionFromGlobalJson(baseDir);
+
+            if (null==dotnetExe || (null!=globalVersion)) {
+                installer.installDotNetSdk(globalVersion);
+                dotnetExe = getDotNetExe();
             }
-            logic.accept(getDotNetExe(), args);
+            logic.accept(dotnetExe, args);
         }
     }
 

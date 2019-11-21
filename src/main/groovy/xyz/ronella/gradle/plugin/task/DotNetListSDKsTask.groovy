@@ -10,6 +10,6 @@ class DotNetListSDKsTask extends DotNetTask {
     public DotNetListSDKsTask() {
         super()
         description = 'Display the installed SDKs.'
-        internalArgs += ['--list-sdks']
+        internalArgs += '--list-sdks'
     }
 }
