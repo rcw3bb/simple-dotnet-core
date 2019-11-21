@@ -9,8 +9,6 @@ public class DotNetExecutorTest {
     public void testNoArgument() {
         String command = DotNetExecutor.build()
                 .getCommand();
-        System.out.println(System.getenv("DOTNET_CORE_HOME"));
-        System.out.println(command);
         assertTrue(command.matches(".*dotnet.exe$"));
     }
 

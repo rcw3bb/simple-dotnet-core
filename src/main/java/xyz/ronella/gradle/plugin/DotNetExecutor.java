@@ -26,48 +26,42 @@ public class DotNetExecutor {
         this.args=args;
     }
 
-    private String getDotNetExeByEnvVar() {
-        String dotnetHome=System.getenv("DOTNET_CORE_HOME");
-        if (null!=dotnetHome)  {
-            return Paths.get(dotnetHome, DOTNET_EXE).toString();
+    private String getProgramFile(Path programFile) {
+        if (programFile.toFile().exists())  {
+            return programFile.toString();
         }
         return null;
+    }
+
+    private String getDotNetExeByEnvVar() {
+        String dotnetHome=System.getenv("DOTNET_CORE_HOME");
+        Path programFile = Paths.get(dotnetHome, DOTNET_EXE);
+        return getProgramFile(programFile);
     }
 
     private String getDotNetExeByProjectDir() {
         String projectDir=Paths.get(".", ".dotnet").toAbsolutePath().toString();
         Path programFile = Paths.get(projectDir, "dotnet", DOTNET_EXE);
-        if (programFile.toFile().exists()) {
-            return programFile.toString();
-        }
-        return null;
+        return getProgramFile(programFile);
     }
 
     private String getDotNetExeByLocalAppData() {
         String localAppData=System.getenv("LOCALAPPDATA");
         Path programFile = Paths.get(localAppData, "Microsoft", "dotnet", DOTNET_EXE);
-        if (programFile.toFile().exists()) {
-            return programFile.toString();
-        }
-        return null;
+        return getProgramFile(programFile);
     }
 
     private String getDotNetExeByProgramFile() {
         Path programFile = Paths.get("C:", "Program Files", "dotnet", DOTNET_EXE);
-        if (programFile.toFile().exists()) {
-            return programFile.toString();
-        }
-        return null;
+        return getProgramFile(programFile);
     }
 
     private String getDotNetExe() {
-
         List<Supplier<String>> finder = Arrays.asList(
                 this::getDotNetExeByEnvVar,
                 this::getDotNetExeByProjectDir,
                 this::getDotNetExeByLocalAppData,
-                this::getDotNetExeByProgramFile,
-                () -> DOTNET_EXE
+                this::getDotNetExeByProgramFile
         );
 
         String command = null;
@@ -83,7 +77,13 @@ public class DotNetExecutor {
     }
 
     private String getCommand() {
-        StringBuilder command = new StringBuilder(getDotNetExe());
+        String dotNetExe = getDotNetExe();
+
+        if (null==dotNetExe) {
+            return null;
+        }
+
+        StringBuilder command = new StringBuilder(dotNetExe);
         if (null!=args && args.size() > 0) {
             command.append(" ").append(String.join(" ",args));
         }
@@ -123,6 +123,11 @@ public class DotNetExecutor {
         }
 
         public void execute(BiConsumer<String, List<String>> logic) {
+            String dotnetExe = getDotNetExe();
+            if (null==dotnetExe) {
+                DotNetCoreSDKInstaller installer = new DotNetCoreSDKInstaller();
+                installer.installDotNetSdk();
+            }
             logic.accept(getDotNetExe(), args);
         }
     }

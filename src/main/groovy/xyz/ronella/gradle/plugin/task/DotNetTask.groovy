@@ -1,6 +1,7 @@
 package xyz.ronella.gradle.plugin.task
 
 import org.gradle.api.DefaultTask
+import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 import xyz.ronella.gradle.plugin.DotNetExecutor
 
@@ -11,8 +12,13 @@ import xyz.ronella.gradle.plugin.DotNetExecutor
  * @since 2019-11-19
  */
 class DotNetTask extends DefaultTask {
+
+    @Input
     String command = ''
+
     protected String[] internalArgs = []
+
+    @Input
     String[] args = []
 
     public DotNetTask() {
@@ -20,6 +26,7 @@ class DotNetTask extends DefaultTask {
         description = 'Execute any available .Net Core SDK command.'
     }
 
+    @Input
     public String[] getAllArgs() {
         return internalArgs+=args
     }

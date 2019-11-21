@@ -4,6 +4,8 @@ The plugin that allows you access to dotnet commands inside gradle as task.
 
 ## Pre-requisite
 
+* Windows OS
+
 * .Net Core SDK
 
   > If your .Net Core SDK is not installed in the standard location *(i.e. C:\Program Files\dotnet)*, set the following environment variable to the correct location:
@@ -54,7 +56,7 @@ All the member tasks of Simple .Net Core group is a child for **dotnetTask**. Th
 
 Whatever you can do with the **dotnet command** in console you can do it in gradle with this task. 
 
-### Example
+#### Example
 
 Translate the following **dotnet publish command** *(i.e. with .Net Core SDK 3.0)* into a task in gradle:
 
