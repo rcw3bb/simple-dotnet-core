@@ -3,7 +3,7 @@ package xyz.ronella.gradle.plugin.task
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
-
+import xyz.ronella.gradle.plugin.DotNetCorePluginExtension
 import xyz.ronella.gradle.plugin.DotNetExecutor
 
 /**
@@ -35,8 +35,9 @@ class DotNetTask extends DefaultTask {
 
     @TaskAction
     def executeCommand() {
-        boolean autoInstall = project.extensions.simple_dotnet.autoInstall;
-        String baseDir = project.extensions.simple_dotnet.baseDir
+        DotNetCorePluginExtension pluginExt = project.extensions.simple_dotnet;
+        boolean autoInstall = pluginExt.autoInstall;
+        String baseDir = pluginExt.baseDir
         if (autoInstall && null==baseDir) {
             throw new RuntimeException("simple_dotnet.baseDir property is not set.")
         }
@@ -50,7 +51,7 @@ class DotNetTask extends DefaultTask {
                 if (null!=___command) {
                     String[] fullCommand = [___command]
                     fullCommand += ___args.toArray()
-                    println(fullCommand.join(" "))
+                    pluginExt.writeln(fullCommand.join(" "))
 
                     project.exec {
                         executable ___command

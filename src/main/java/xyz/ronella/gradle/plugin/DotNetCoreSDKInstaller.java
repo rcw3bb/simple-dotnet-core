@@ -116,7 +116,7 @@ public class DotNetCoreSDKInstaller {
         List<String> installedVersions = getInstalledSDKVersions();
 
         if (null!=installedVersions && installedVersions.contains(version)) {
-            System.out.println(String.format("Using .Net Core SDK v%s", version));
+            //.Net Core SDK was already installed.
             return;
         }
 

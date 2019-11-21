@@ -14,7 +14,7 @@ class DotNetCorePluginExtension {
      * @author Ron Webb
      * @since 2019-11-22
      */
-    String baseDir
+    public String baseDir
 
     /**
      * Controls the auto installation of the .Net Core SDK.
@@ -22,5 +22,27 @@ class DotNetCorePluginExtension {
      * @author Ron Webb
      * @since 2019-11-22
      */
-    boolean autoInstall = true
+    public boolean autoInstall = true
+
+    /**
+     * Controls the amount of information displayed on the console.
+     *
+     * @author Ron Webb
+     * @since 2019-11-22
+     */
+    public boolean verbose = false
+
+    /**
+     * Utility method for printing text on the console based on the verbose property.
+     * @param text The value to be printed.
+     *
+     * @author Ron Webb
+     * @since 2019-11-22
+     */
+    public void writeln(String text) {
+        if (verbose) {
+            println(text)
+        }
+    }
+
 }
