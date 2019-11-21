@@ -95,9 +95,15 @@ public class DotNetExecutor {
 
         private List<String> args = new ArrayList<String>();
         private String baseDir;
+        private boolean autoInstall;
 
         public DotNetExecutorBuilder addBaseDir(String baseDir) {
             this.baseDir = baseDir;
+            return this;
+        }
+
+        public DotNetExecutorBuilder addAutoInstall(boolean autoInstall) {
+            this.autoInstall = autoInstall;
             return this;
         }
 
@@ -134,13 +140,17 @@ public class DotNetExecutor {
 
         public void execute(BiConsumer<String, List<String>> logic) {
             String dotnetExe = getDotNetExe();
-            DotNetCoreSDKInstaller installer = new DotNetCoreSDKInstaller();
-            String globalVersion = installer.getVersionFromGlobalJson(baseDir);
 
-            if (null==dotnetExe || (null!=globalVersion)) {
-                installer.installDotNetSdk(globalVersion);
-                dotnetExe = getDotNetExe();
+            if (autoInstall) {
+                DotNetCoreSDKInstaller installer = new DotNetCoreSDKInstaller();
+                String globalVersion = installer.getVersionFromGlobalJson(baseDir);
+
+                if (null == dotnetExe || (null != globalVersion)) {
+                    installer.installDotNetSdk(globalVersion);
+                    dotnetExe = getDotNetExe();
+                }
             }
+
             logic.accept(dotnetExe, args);
         }
     }
