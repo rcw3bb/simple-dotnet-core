@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.2 : 2019-11-22
+
+### Update
+
+* Consider the command value before using the **--help** as the only argument.
+
 ## 1.1.1 : 2019-11-22
 
 ### Update

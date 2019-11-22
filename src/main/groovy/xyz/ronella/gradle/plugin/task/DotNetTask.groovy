@@ -31,7 +31,8 @@ class DotNetTask extends DefaultTask {
     @Input
     public String[] getAllArgs() {
         String[] newArgs = internalArgs + args + postArguments
-        return newArgs.length > 0 ? newArgs : ['--help']
+
+        return (command.length()>0 || newArgs.length > 0) ? newArgs : ['--help']
     }
 
     @TaskAction
