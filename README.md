@@ -4,15 +4,8 @@ The plugin that allows you access to dotnet commands inside gradle as task.
 
 ## Pre-requisite
 
+* Java 8 (Minimum)
 * Windows OS
-
-* .Net Core SDK
-
-  > If your .Net Core SDK is not installed in the standard location *(i.e. C:\Program Files\dotnet)*, set the following environment variable to the correct location:
-  >
-  > ```
-  > DOTNET_CORE_HOME
-  > ```
 
 ## Plugging in the simple-dotnet-core
 
@@ -20,7 +13,7 @@ In your **build.gradle** file add the following plugin:
 
 ```groovy
 plugins {
-    id "xyz.ronella.dotnet.core" version "1.0.0-GA"
+    id "xyz.ronella.dotnet.core" version "1.1.0"
 }
 ```
 
@@ -39,6 +32,7 @@ plugins {
 > dotnetClean - Clean build outputs of a .NET project.
 > dotnetCreateGlobalJson - Generate a global.json file.
 > dotnetInfo - Display .NET Core information.
+> dotnetListSDKs - Display the installed SDKs.
 > dotnetMSBuild - Run Microsoft Build Engine (MSBuild) command.
 > dotnetNewConsole - Create a new .NET Console project.
 > dotnetPack - Create a NuGet package.
@@ -49,6 +43,14 @@ plugins {
 > dotnetTest - Run unit tests using the test runner specified in a .NET project.
 > dotnetVersion - Display .NET Core SDK version is use.
 > ```
+
+## Plugin Properties
+
+| Property | Description | Type | Default |
+|-----|------|------|-----|
+| simple_dotnet.autoInstall | If set to true and the plugin doesn't find any dotnet executable,   the plugin will try to install it. The version of the .NET core SDK that will be installed will be based on the specified version on **global.json** if present. | boolean | true |
+| simple_dotnet.baseDir | Tells the plugin what is the base directory it will work on *(e.g. like finding the global.json file.)*. This is **required** if simple_dotnet.autoInstall was set to true. | String | |
+| simple_dotnet.verbose | The plugin will to display more information on the console *(e.g. the actual dotnet command being run)*. | boolean | false |
 
 ## Using dotnetTask
 
@@ -114,6 +116,28 @@ task publishToExe(type: DotNetPublishTask) {
 
 > You don't need to set the **command property** because it was already preset with **publish**.
 >
+
+## Sample build.gradle File
+
+``` groovy
+plugins {
+  id "xyz.ronella.dotnet.core" version "1.1.0"
+}
+
+simple_dotnet.baseDir = project.projectDir.absolutePath
+
+dotnetClean {
+  doLast {
+    delete 'bin'
+    delete 'obj'
+  }
+}
+
+dotnetPublish {
+  args = ['-r', 'win-x64', '-c', 'Release', 
+          '/p:PublishSingleFile=true', '/p:PublishTrimmed=true']
+}
+```
 
 ## Author
 
