@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.1 : 2019-11-22
+
+### Update
+
+* If no command and arguments were specified use **--help** as the only argument.
+
 ## 1.1.0 : 2019-11-22
 
 ### Added
