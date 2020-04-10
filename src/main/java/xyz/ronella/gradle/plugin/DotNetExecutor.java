@@ -1,5 +1,6 @@
 package xyz.ronella.gradle.plugin;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -16,7 +17,9 @@ import java.util.function.Supplier;
  */
 public class DotNetExecutor {
 
-    private final static String DOTNET_EXE = "dotnet.exe";
+    public static boolean IS_WINDOWS = System.getProperty("os.name").toLowerCase().contains("win");
+
+    private final static String DOTNET_EXE = IS_WINDOWS ? "dotnet.exe" : "dotnet";
 
     private List<String> args;
 
@@ -56,12 +59,48 @@ public class DotNetExecutor {
         return getProgramFile(programFile);
     }
 
+    private String getDotNetExeByUsrBin() {
+        Path usrBin = Paths.get(File.separator,"usr", "bin", DOTNET_EXE);
+        return getProgramFile(usrBin);
+    }
+
+    private String getDotNetExeByUsrSbin() {
+        Path usrBin = Paths.get(File.separator,"usr", "sbin", DOTNET_EXE);
+        return getProgramFile(usrBin);
+    }
+
+    private String getDotNetExeByUsrLocalBin() {
+        Path usrBin = Paths.get(File.separator,"usr", "local", "bin", DOTNET_EXE);
+        return getProgramFile(usrBin);
+    }
+
+    private String getDotNetExeByUsrLocalSbin() {
+        Path usrBin = Paths.get(File.separator,"usr", "local", "sbin", DOTNET_EXE);
+        return getProgramFile(usrBin);
+    }
+
+    private String getDotNetExeByOptDotNet() {
+        Path usrBin = Paths.get(File.separator,"opt", "dotnet", DOTNET_EXE);
+        return getProgramFile(usrBin);
+    }
+
+    private String getDotNetExeByOpt() {
+        Path usrBin = Paths.get(File.separator,"opt", DOTNET_EXE);
+        return getProgramFile(usrBin);
+    }
+
     private String getDotNetExe() {
         List<Supplier<String>> finder = Arrays.asList(
                 this::getDotNetExeByEnvVar,
                 this::getDotNetExeByProjectDir,
                 this::getDotNetExeByLocalAppData,
-                this::getDotNetExeByProgramFile
+                this::getDotNetExeByProgramFile,
+                this::getDotNetExeByUsrBin,
+                this::getDotNetExeByUsrSbin,
+                this::getDotNetExeByUsrLocalBin,
+                this::getDotNetExeByUsrLocalSbin,
+                this::getDotNetExeByOptDotNet,
+                this::getDotNetExeByOpt
         );
 
         String command = null;
@@ -141,7 +180,7 @@ public class DotNetExecutor {
         public void execute(BiConsumer<String, List<String>> logic) {
             String dotnetExe = getDotNetExe();
 
-            if (autoInstall) {
+            if (IS_WINDOWS && autoInstall) {
                 DotNetCoreSDKInstaller installer = new DotNetCoreSDKInstaller();
                 String globalVersion = installer.getVersionFromGlobalJson(baseDir);
 

@@ -44,25 +44,27 @@ class DotNetTask extends DefaultTask {
             throw new RuntimeException("simple_dotnet.baseDir property is not set.")
         }
 
-        DotNetExecutor.build()
-            .addAutoInstall(autoInstall)
-            .addBaseDir(baseDir)
-            .addArg(command)
-            .addArgs(allArgs)
+        def executor = DotNetExecutor.build()
+        executor.addAutoInstall(autoInstall).addBaseDir(baseDir)
+        if (command) {
+            executor.addArg(command)
+        }
+        executor.addArgs(allArgs)
             .execute { String ___command, List<String> ___args ->
                 if (null!=___command) {
                     String[] fullCommand = [___command]
                     fullCommand += ___args.toArray()
-                    pluginExt.writeln(fullCommand.join(" "))
+
+                    pluginExt.writeln("OS: ${System.getProperty('os.name')}")
+                    pluginExt.writeln("Command to execute: ${fullCommand.join(' ')}")
 
                     project.exec {
-                        executable ___command
-                        args ___args
+                        commandLine fullCommand
                     }
                 }
                 else {
-                    println("The simple_dotnet.autoInstall property was set to false.")
-                    println("Please install a .Net Core SDK.")
+                    println("Either the simple_dotnet.autoInstall property was set to false or you are not in a windows operating system.")
+                    println("Please install a .Net Core SDK manually")
                 }
             };
     }
