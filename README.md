@@ -13,7 +13,7 @@ In your **build.gradle** file add the following plugin:
 
 ```groovy
 plugins {
-    id "xyz.ronella.dotnet.core" version "1.1.3"
+    id "xyz.ronella.dotnet.core" version "1.2.0"
 }
 ```
 
@@ -125,7 +125,7 @@ task publishToExe(type: DotNetPublishTask) {
 
 ``` groovy
 plugins {
-  id "xyz.ronella.dotnet.core" version "1.1.3"
+  id "xyz.ronella.dotnet.core" version "1.2.0"
 }
 
 simple_dotnet.baseDir = project.projectDir.absolutePath

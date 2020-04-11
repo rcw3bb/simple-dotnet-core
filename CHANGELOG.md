@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.0 : 2020-04-11
+
+### New
+
+* Auto .Net Core SDK installation for Linux
+
 ## 1.1.3 : 2020-04-10
 
 ### New
