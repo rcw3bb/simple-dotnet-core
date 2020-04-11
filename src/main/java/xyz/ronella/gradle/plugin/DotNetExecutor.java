@@ -17,9 +17,9 @@ import java.util.function.Supplier;
  */
 public class DotNetExecutor {
 
-    public static boolean IS_WINDOWS = System.getProperty("os.name").toLowerCase().contains("win");
+    public final static OSType OS_TYPE = OSType.identify();
 
-    private final static String DOTNET_EXE = IS_WINDOWS ? "dotnet.exe" : "dotnet";
+    private final static String DOTNET_EXE = OS_TYPE.getExecutable();
 
     private List<String> args;
 
@@ -180,13 +180,18 @@ public class DotNetExecutor {
         public void execute(BiConsumer<String, List<String>> logic) {
             String dotnetExe = getDotNetExe();
 
-            if (IS_WINDOWS && autoInstall) {
-                DotNetCoreSDKInstaller installer = new DotNetCoreSDKInstaller();
-                String globalVersion = installer.getVersionFromGlobalJson(baseDir);
+            if (OS_TYPE.canInstall() && autoInstall) {
+                try {
+                    DotNetCoreSDKInstaller installer = new DotNetCoreSDKInstaller();
+                    String globalVersion = installer.getVersionFromGlobalJson(baseDir);
 
-                if (null == dotnetExe || (null != globalVersion)) {
-                    installer.installDotNetSdk(globalVersion);
-                    dotnetExe = getDotNetExe();
+                    if (null == dotnetExe || (null != globalVersion)) {
+                        installer.installDotNetSdk(globalVersion);
+                        dotnetExe = getDotNetExe();
+                    }
+                }
+                catch (UnknownOSTypeRuntimeException uostre) {
+                    System.out.println("Automatic installation of SDK is not available.");
                 }
             }
 
@@ -197,4 +202,5 @@ public class DotNetExecutor {
     public static DotNetExecutorBuilder build() {
         return new DotNetExecutorBuilder();
     }
+
 }

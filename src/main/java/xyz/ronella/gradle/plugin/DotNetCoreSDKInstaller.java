@@ -2,16 +2,17 @@ package xyz.ronella.gradle.plugin;
 
 import groovy.json.JsonSlurper;
 
+import xyz.ronella.gradle.plugin.install.Windows;
+import xyz.ronella.gradle.plugin.install.Linux;
+
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class DotNetCoreSDKInstaller {
@@ -121,40 +122,37 @@ public class DotNetCoreSDKInstaller {
         }
 
         System.out.println("Installing .Net Core SDK");
+        OSType osType = DotNetExecutor.OS_TYPE;
 
-        Path pathInstaller = getScriptPath("dotnet-install.ps1");
-        final String POWER_SHELL = "PowerShell.Exe";
-        final String INSTALL_DIR = "dotnet";
+        if (osType!= OSType.Unknown) {
+            Path pathInstaller = getScriptPath(osType.getScriptName());
+            final String INSTALL_DIR = "dotnet";
 
-        Path pathInstallDir = Paths.get(".", LOCAL_DOTNET_DIR, INSTALL_DIR).toAbsolutePath();
+            Path pathInstallDir = Paths.get(".", LOCAL_DOTNET_DIR, INSTALL_DIR).toAbsolutePath();
 
-        if (pathInstaller.toFile().exists()) {
+            if (pathInstaller.toFile().exists()) {
+                Map<OSType, Supplier<List<String>>> commands = new HashMap<>();
 
-            List<String> command = new ArrayList<>();
-            command.add(POWER_SHELL);
-            command.add("-executionpolicy");
-            command.add("bypass");
-            command.add("-File");
-            command.add(pathInstaller.toString());
-            command.add("-InstallDir");
-            command.add(pathInstallDir.toString());
+                commands.put(OSType.Windows,new Windows(pathInstaller, pathInstallDir, version));
+                commands.put(OSType.Linux,new Linux(pathInstaller, pathInstallDir, version));
 
-            if (null!=version) {
-                command.add("-Version");
-                command.add(version);
+                List<String> command = commands.get(osType).get();
+
+                if (command!=null) {
+                    processCommand(command, ___process -> {
+                        InputStream input = ___process.getInputStream();
+                        InputStream error = ___process.getErrorStream();
+
+                        processStreamForOutput(input, ___output -> System.out.println(String.join("\n", ___output)));
+                        processStreamForOutput(error, ___output -> System.err.println(String.join("\n", ___output)));
+                    });
+                }
+            } else {
+                throw new RuntimeException("Installer Script Not Found.");
             }
-
-            processCommand(command, ___process -> {
-                InputStream input = ___process.getInputStream();
-                InputStream error = ___process.getErrorStream();
-
-                processStreamForOutput(input, ___output -> System.out.println(String.join("\n", ___output)));
-                processStreamForOutput(error, ___output -> System.err.println(String.join("\n", ___output)));
-            });
-
         }
         else {
-            throw new RuntimeException("Installer Script Not Found.");
+            throw new UnknownOSTypeRuntimeException();
         }
     }
 }
