@@ -52,7 +52,7 @@ The first location that the plugin will try to look for the **dotnet executable*
 
 | Property | Description | Type | Default |
 |-----|------|------|-----|
-| simple_dotnet.autoInstall | If set to true and the plugin doesn't find any dotnet executable,   the plugin will try to install it. The version of the .NET core SDK that will be installed will be based on the specified version on **global.json** if present. *This property is only for windows operating system.* | boolean | true |
+| simple_dotnet.autoInstall | If set to true and the plugin doesn't find any dotnet executable,   the plugin will try to install it. The version of the .NET core SDK that will be installed will be based on the specified version on **global.json** if present. | boolean | true |
 | simple_dotnet.baseDir | Tells the plugin what is the base directory it will work on *(e.g. like finding the global.json file.)*. This is **required** if simple_dotnet.autoInstall was set to true. | String | |
 | simple_dotnet.verbose | The plugin will to display more information on the console *(e.g. the actual dotnet command being run)*. | boolean | false |
 
