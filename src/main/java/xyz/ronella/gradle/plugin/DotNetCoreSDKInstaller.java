@@ -105,7 +105,7 @@ public class DotNetCoreSDKInstaller {
     }
 
     public DotNetExecutor.DotNetExecutorBuilder getDotNetExecutorBuilder() {
-        return DotNetExecutor.build();
+        return DotNetExecutor.getBuilder();
     }
 
     public void installDotNetSdk(String version) {

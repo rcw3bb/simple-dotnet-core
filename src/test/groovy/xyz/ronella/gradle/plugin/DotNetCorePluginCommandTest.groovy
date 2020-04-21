@@ -5,6 +5,8 @@ import org.gradle.testfixtures.ProjectBuilder
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
+import java.nio.file.Paths
+
 import static org.junit.jupiter.api.Assertions.*
 
 class DotNetCorePluginCommandTest {
@@ -60,6 +62,13 @@ class DotNetCorePluginCommandTest {
     @Test
     public void testTestTask() {
         assertEquals('test', project.tasks.dotnetTest.command)
+    }
+
+    @Test
+    public void testDotNetTaskExecuteCommand() {
+        project.extensions.simple_dotnet.baseDir = Paths.get(".").toAbsolutePath().toString()
+        project.extensions.simple_dotnet.verbose = true
+        project.tasks.dotnetTask.executeCommand()
     }
 
 }

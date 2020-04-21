@@ -1,6 +1,5 @@
 package xyz.ronella.gradle.plugin;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -19,11 +18,13 @@ public class DotNetExecutor {
 
     public final static OSType OS_TYPE = OSType.identify();
 
-    private final static String DOTNET_EXE = OS_TYPE.getExecutable();
+    public final static String DOTNET_EXE = OS_TYPE.getExecutable();
 
     private List<String> args;
 
     private DotNetExecutor() {}
+
+    private String knownDotNetExe;
 
     private void setArgs(List<String> args) {
         this.args=args;
@@ -32,6 +33,17 @@ public class DotNetExecutor {
     private String getProgramFile(Path programFile) {
         if (programFile.toFile().exists())  {
             return programFile.toString();
+        }
+        return null;
+    }
+
+    private void setKnownDotNetExe(String knownDotNetExe) {
+        this.knownDotNetExe = knownDotNetExe;
+    }
+
+    private String getKnownDotNetExe() {
+        if (knownDotNetExe!=null) {
+            return getProgramFile(Paths.get(knownDotNetExe));
         }
         return null;
     }
@@ -48,59 +60,11 @@ public class DotNetExecutor {
         return getProgramFile(programFile);
     }
 
-    private String getDotNetExeByLocalAppData() {
-        String localAppData=System.getenv("LOCALAPPDATA");
-        Path programFile = Paths.get(localAppData, "Microsoft", "dotnet", DOTNET_EXE);
-        return getProgramFile(programFile);
-    }
-
-    private String getDotNetExeByProgramFile() {
-        Path programFile = Paths.get("C:", "Program Files", "dotnet", DOTNET_EXE);
-        return getProgramFile(programFile);
-    }
-
-    private String getDotNetExeByUsrBin() {
-        Path usrBin = Paths.get(File.separator,"usr", "bin", DOTNET_EXE);
-        return getProgramFile(usrBin);
-    }
-
-    private String getDotNetExeByUsrSbin() {
-        Path usrBin = Paths.get(File.separator,"usr", "sbin", DOTNET_EXE);
-        return getProgramFile(usrBin);
-    }
-
-    private String getDotNetExeByUsrLocalBin() {
-        Path usrBin = Paths.get(File.separator,"usr", "local", "bin", DOTNET_EXE);
-        return getProgramFile(usrBin);
-    }
-
-    private String getDotNetExeByUsrLocalSbin() {
-        Path usrBin = Paths.get(File.separator,"usr", "local", "sbin", DOTNET_EXE);
-        return getProgramFile(usrBin);
-    }
-
-    private String getDotNetExeByOptDotNet() {
-        Path usrBin = Paths.get(File.separator,"opt", "dotnet", DOTNET_EXE);
-        return getProgramFile(usrBin);
-    }
-
-    private String getDotNetExeByOpt() {
-        Path usrBin = Paths.get(File.separator,"opt", DOTNET_EXE);
-        return getProgramFile(usrBin);
-    }
-
     private String getDotNetExe() {
         List<Supplier<String>> finder = Arrays.asList(
                 this::getDotNetExeByEnvVar,
                 this::getDotNetExeByProjectDir,
-                this::getDotNetExeByLocalAppData,
-                this::getDotNetExeByProgramFile,
-                this::getDotNetExeByUsrBin,
-                this::getDotNetExeByUsrSbin,
-                this::getDotNetExeByUsrLocalBin,
-                this::getDotNetExeByUsrLocalSbin,
-                this::getDotNetExeByOptDotNet,
-                this::getDotNetExeByOpt
+                this::getKnownDotNetExe
         );
 
         String command = null;
@@ -132,12 +96,18 @@ public class DotNetExecutor {
     public static class DotNetExecutorBuilder {
         private DotNetExecutorBuilder() {}
 
-        private List<String> args = new ArrayList<String>();
+        private final List<String> args = new ArrayList<>();
         private String baseDir;
         private boolean autoInstall;
+        private String knownDotNetExe;
 
         public DotNetExecutorBuilder addBaseDir(String baseDir) {
             this.baseDir = baseDir;
+            return this;
+        }
+
+        public DotNetExecutorBuilder addKnownDotNetExe(String knownDotNetExe) {
+            this.knownDotNetExe = knownDotNetExe;
             return this;
         }
 
@@ -161,7 +131,9 @@ public class DotNetExecutor {
         }
 
         private DotNetExecutor getDotNetExecutor() {
-            return new DotNetExecutor();
+            DotNetExecutor executor = new DotNetExecutor();
+            executor.setKnownDotNetExe(this.knownDotNetExe);
+            return executor;
         }
 
         public String getDotNetExe() {
@@ -185,7 +157,7 @@ public class DotNetExecutor {
                     DotNetCoreSDKInstaller installer = new DotNetCoreSDKInstaller();
                     String globalVersion = installer.getVersionFromGlobalJson(baseDir);
 
-                    if (null == dotnetExe || (null != globalVersion)) {
+                    if (null == dotnetExe || null != globalVersion) {
                         installer.installDotNetSdk(globalVersion);
                         dotnetExe = getDotNetExe();
                     }
@@ -199,7 +171,7 @@ public class DotNetExecutor {
         }
     }
 
-    public static DotNetExecutorBuilder build() {
+    public static DotNetExecutorBuilder getBuilder() {
         return new DotNetExecutorBuilder();
     }
 

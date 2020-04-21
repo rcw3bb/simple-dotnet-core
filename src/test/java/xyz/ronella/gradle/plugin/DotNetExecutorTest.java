@@ -12,7 +12,8 @@ public class DotNetExecutorTest {
     }
 
     public DotNetExecutor.DotNetExecutorBuilder getDotNetExecutorBuilder() {
-        return DotNetExecutor.build();
+        return DotNetExecutor.getBuilder()
+                .addKnownDotNetExe(Paths.get(".", "src", "test", "resources", "dotnet.exe").toString());
     }
 
     @Test
