@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.0 : 2020-04-21
+
+### New
+
+* Detection of the location of dotnet executable for both windows and linux.
+
 ## 1.2.0 : 2020-04-11
 
 ### New
