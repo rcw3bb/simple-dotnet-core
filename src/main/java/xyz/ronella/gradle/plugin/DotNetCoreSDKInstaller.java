@@ -18,6 +18,11 @@ import java.util.stream.Collectors;
 public class DotNetCoreSDKInstaller {
 
     private static final String LOCAL_DOTNET_DIR = ".dotnet";
+    private String knownDotNetExe;
+
+    public DotNetCoreSDKInstaller(String knownDotNetExe) {
+        this.knownDotNetExe = knownDotNetExe;
+    }
 
     public String getVersionFromGlobalJson(String baseDir) {
         final String GLOBAL_JSON = "global.json";
@@ -105,7 +110,7 @@ public class DotNetCoreSDKInstaller {
     }
 
     public DotNetExecutor.DotNetExecutorBuilder getDotNetExecutorBuilder() {
-        return DotNetExecutor.getBuilder();
+        return DotNetExecutor.getBuilder().addKnownDotNetExe(this.knownDotNetExe);
     }
 
     public void installDotNetSdk(String version) {

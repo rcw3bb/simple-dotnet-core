@@ -154,7 +154,7 @@ public class DotNetExecutor {
 
             if (OS_TYPE.canInstall() && autoInstall) {
                 try {
-                    DotNetCoreSDKInstaller installer = new DotNetCoreSDKInstaller();
+                    DotNetCoreSDKInstaller installer = new DotNetCoreSDKInstaller(knownDotNetExe);
                     String globalVersion = installer.getVersionFromGlobalJson(baseDir);
 
                     if (null == dotnetExe || null != globalVersion) {

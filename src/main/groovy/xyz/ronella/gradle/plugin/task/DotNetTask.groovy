@@ -86,7 +86,8 @@ class DotNetTask extends DefaultTask {
         String baseDir = pluginExt.baseDir
 
         if (autoInstall && null==baseDir) {
-            throw new RuntimeException("simple_dotnet.baseDir property is not set.")
+            baseDir = project.projectDir.absolutePath
+            println("Using ${baseDir} as baseDir.")
         }
 
         def knownDotNet = detectDotNetExec()
