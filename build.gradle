@@ -18,7 +18,7 @@ gradlePlugin {
             id = 'xyz.ronella.dotnet.core'
             displayName = 'Simple .Net Core Gradle Plugin'
             description = 'The plugin that allows you access to dotnet commands inside gradle as task'
-            implementationClass = 'xyz.ronella.gradle.plugin.DotNetCorePlugin'
+            implementationClass = 'xyz.ronella.gradle.plugin.simple.dotnet.core.DotNetCorePlugin'
         }
     }
 }
