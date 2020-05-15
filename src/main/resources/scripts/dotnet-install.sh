@@ -1091,3 +1091,4 @@ else
 fi
 
 say "Installation finished successfully."
+
