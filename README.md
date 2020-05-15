@@ -13,7 +13,7 @@ In your **build.gradle** file add the following plugin:
 
 ```groovy
 plugins {
-    id "xyz.ronella.dotnet.core" version "1.3.0"
+    id "xyz.ronella.dotnet.core" version "2.0.0"
 }
 ```
 
@@ -104,7 +104,7 @@ task publishToExe(type: DotNetTask) {
 > To use **DotNetTask class** as the type of your task, you must add the following at the top of your **build.gradle** file:
 >
 > ```
-> import xyz.ronella.gradle.plugin.task.*
+> import xyz.ronella.gradle.plugin.simple.dotnet.core.task.*
 > ```
 >
 > Note: Each **default simple .net core tasks** has equivalent class file. The class file has the prefix **DotNet** *(and ending in **Task**)* instead of **dotnet** of the normal gradle task *(e.g. **dotnetPublish** gradle task has an equivalent class of **DotNetPublishTask**)*.
@@ -125,8 +125,10 @@ task publishToExe(type: DotNetPublishTask) {
 
 ``` groovy
 plugins {
-  id "xyz.ronella.dotnet.core" version "1.3.0"
+  id "xyz.ronella.dotnet.core" version "2.0.0"
 }
+
+simple_dotnet.baseDir = project.projectDir.absolutePath
 
 dotnetClean {
   doLast {

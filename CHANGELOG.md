@@ -1,5 +1,19 @@
 # Changelog
 
+## 2.0.0 : 2020-05-15
+
+### Fix
+
+* Linux dotnet core installer is now marked as executable and the EOL is fixed.
+
+### Change
+
+* Change the location of the downloaded script.
+
+### New
+
+* Add simple.dotnet.core in the package name.
+
 ## 1.3.0 : 2020-04-21
 
 ### New
