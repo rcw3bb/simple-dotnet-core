@@ -20,6 +20,8 @@ public class DotNetExecutor {
 
     public final static String DOTNET_EXE = OS_TYPE.getExecutable();
 
+    public static final String LOCAL_DOTNET_DIR = Paths.get("build", "simple", "dotnet", "core").toString();
+
     private List<String> args;
 
     private DotNetExecutor() {}
@@ -55,7 +57,7 @@ public class DotNetExecutor {
     }
 
     private String getDotNetExeByProjectDir() {
-        String projectDir=Paths.get(".", ".dotnet").toAbsolutePath().toString();
+        String projectDir=Paths.get(".", LOCAL_DOTNET_DIR).toAbsolutePath().toString();
         Path programFile = Paths.get(projectDir, "dotnet", DOTNET_EXE);
         return getProgramFile(programFile);
     }

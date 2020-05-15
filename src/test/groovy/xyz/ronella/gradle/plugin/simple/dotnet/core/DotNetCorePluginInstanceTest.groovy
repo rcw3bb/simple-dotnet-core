@@ -1,21 +1,25 @@
 package xyz.ronella.gradle.plugin.simple.dotnet.core
 
-
+import xyz.ronella.gradle.plugin.simple.dotnet.core.task.DotNetCleanTask
+import xyz.ronella.gradle.plugin.simple.dotnet.core.task.DotNetInfoTask
 import xyz.ronella.gradle.plugin.simple.dotnet.core.task.DotNetListSDKsTask
-
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-
-import org.gradle.api.Project
-import org.gradle.testfixtures.ProjectBuilder
-
+import xyz.ronella.gradle.plugin.simple.dotnet.core.task.DotNetMSBuildTask
+import xyz.ronella.gradle.plugin.simple.dotnet.core.task.DotNetPublishTask
+import xyz.ronella.gradle.plugin.simple.dotnet.core.task.DotNetRestoreTask
+import xyz.ronella.gradle.plugin.simple.dotnet.core.task.DotNetRunTask
+import xyz.ronella.gradle.plugin.simple.dotnet.core.task.DotNetTask
 import xyz.ronella.gradle.plugin.simple.dotnet.core.task.DotNetBuildTask
 import xyz.ronella.gradle.plugin.simple.dotnet.core.task.DotNetNewConsoleTask
 import xyz.ronella.gradle.plugin.simple.dotnet.core.task.DotNetPackTask
 import xyz.ronella.gradle.plugin.simple.dotnet.core.task.DotNetTestTask
 import xyz.ronella.gradle.plugin.simple.dotnet.core.task.DotNetVersionTask
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.gradle.api.Project
+import org.gradle.testfixtures.ProjectBuilder
 
 class DotNetCorePluginInstanceTest {
 
@@ -34,17 +38,17 @@ class DotNetCorePluginInstanceTest {
 
     @Test
     public void testCleanTask() {
-        assertTrue(project.tasks.dotnetClean instanceof xyz.ronella.gradle.plugin.simple.dotnet.core.task.DotNetCleanTask)
+        assertTrue(project.tasks.dotnetClean instanceof DotNetCleanTask)
     }
 
     @Test
     public void testInfoTask() {
-        assertTrue(project.tasks.dotnetInfo instanceof xyz.ronella.gradle.plugin.simple.dotnet.core.task.DotNetInfoTask)
+        assertTrue(project.tasks.dotnetInfo instanceof DotNetInfoTask)
     }
 
     @Test
     public void testMsBuildTask() {
-        assertTrue(project.tasks.dotnetMSBuild instanceof xyz.ronella.gradle.plugin.simple.dotnet.core.task.DotNetMSBuildTask)
+        assertTrue(project.tasks.dotnetMSBuild instanceof DotNetMSBuildTask)
     }
 
     @Test
@@ -59,22 +63,22 @@ class DotNetCorePluginInstanceTest {
 
     @Test
     public void testPublishTask() {
-        assertTrue(project.tasks.dotnetPublish instanceof xyz.ronella.gradle.plugin.simple.dotnet.core.task.DotNetPublishTask)
+        assertTrue(project.tasks.dotnetPublish instanceof DotNetPublishTask)
     }
 
     @Test
     public void testRestoreTask() {
-        assertTrue(project.tasks.dotnetRestore instanceof xyz.ronella.gradle.plugin.simple.dotnet.core.task.DotNetRestoreTask)
+        assertTrue(project.tasks.dotnetRestore instanceof DotNetRestoreTask)
     }
 
     @Test
     public void testRunTask() {
-        assertTrue(project.tasks.dotnetRun instanceof xyz.ronella.gradle.plugin.simple.dotnet.core.task.DotNetRunTask)
+        assertTrue(project.tasks.dotnetRun instanceof DotNetRunTask)
     }
 
     @Test
     public void testDotNetTask() {
-        assertTrue(project.tasks.dotnetTask instanceof xyz.ronella.gradle.plugin.simple.dotnet.core.task.DotNetTask)
+        assertTrue(project.tasks.dotnetTask instanceof DotNetTask)
     }
 
     @Test

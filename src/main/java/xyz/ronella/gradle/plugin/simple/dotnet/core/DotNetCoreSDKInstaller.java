@@ -17,8 +17,7 @@ import java.util.stream.Collectors;
 
 public class DotNetCoreSDKInstaller {
 
-    private static final String LOCAL_DOTNET_DIR = ".dotnet";
-    private String knownDotNetExe;
+    private final String knownDotNetExe;
 
     public DotNetCoreSDKInstaller(String knownDotNetExe) {
         this.knownDotNetExe = knownDotNetExe;
@@ -47,12 +46,24 @@ public class DotNetCoreSDKInstaller {
         return version;
     }
 
+    private void makeExecutable(String script) {
+        ProcessBuilder builder = new ProcessBuilder();
+        builder.command("chmod", "775", script);
+        try {
+            Process process = builder.start();
+            int exitCode = process.waitFor();
+            assert exitCode ==0;
+        } catch (Exception exp) {
+            throw new RuntimeException(exp);
+        }
+    }
+
     public Path getScriptPath(String script) {
         final String DEFAULT_JOIN_DELIMITER = "/";
         final String SCRIPTS_DIR = "scripts";
 
         String internalScript = String.join(DEFAULT_JOIN_DELIMITER, SCRIPTS_DIR, script);
-        Path pathScript = Paths.get(".", LOCAL_DOTNET_DIR, SCRIPTS_DIR).toAbsolutePath();
+        Path pathScript = Paths.get(".", DotNetExecutor.LOCAL_DOTNET_DIR, SCRIPTS_DIR).toAbsolutePath();
         File fileScript = pathScript.toFile();
         Path outputScript = Paths.get(fileScript.toString(), script);
 
@@ -60,6 +71,11 @@ public class DotNetCoreSDKInstaller {
             fileScript.mkdirs();
             try (InputStream isStream = this.getClass().getClassLoader().getResourceAsStream(internalScript)) {
                 Files.copy(isStream, outputScript);
+                switch (DotNetExecutor.OS_TYPE) {
+                    case Linux:
+                        makeExecutable(outputScript.toString());
+                        break;
+                }
             }
             catch(IOException ioe){
                 throw new RuntimeException(ioe);
@@ -133,7 +149,7 @@ public class DotNetCoreSDKInstaller {
             Path pathInstaller = getScriptPath(osType.getScriptName());
             final String INSTALL_DIR = "dotnet";
 
-            Path pathInstallDir = Paths.get(".", LOCAL_DOTNET_DIR, INSTALL_DIR).toAbsolutePath();
+            Path pathInstallDir = Paths.get(".", DotNetExecutor.LOCAL_DOTNET_DIR, INSTALL_DIR).toAbsolutePath();
 
             if (pathInstaller.toFile().exists()) {
                 Map<OSType, Supplier<List<String>>> commands = new HashMap<>();
