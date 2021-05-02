@@ -52,8 +52,11 @@ public class DotNetExecutor {
 
     private String getDotNetExeByEnvVar() {
         String dotnetHome=System.getenv("DOTNET_CORE_HOME");
-        Path programFile = Paths.get(dotnetHome, DOTNET_EXE);
-        return getProgramFile(programFile);
+        if (null!=dotnetHome) {
+            Path programFile = Paths.get(dotnetHome, DOTNET_EXE);
+            return getProgramFile(programFile);
+        }
+        return null;
     }
 
     private String getDotNetExeByProjectDir() {
