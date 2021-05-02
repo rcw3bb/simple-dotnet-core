@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.0.1 : 2021-05-02
+
+### Fix
+
+* Add null check on determining the executable by environment variable.
+* Use only the first executable when detecting the installed executables on Windows.
+
 ## 2.0.0 : 2020-05-15
 
 ### Fix

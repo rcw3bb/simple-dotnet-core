@@ -13,7 +13,7 @@ In your **build.gradle** file add the following plugin:
 
 ```groovy
 plugins {
-    id "xyz.ronella.dotnet.core" version "2.0.0"
+    id "xyz.ronella.dotnet.core" version "2.0.1"
 }
 ```
 
@@ -119,13 +119,12 @@ task publishToExe(type: DotNetPublishTask) {
 ```
 
 > You don't need to set the **command property** because it was already preset with **publish**.
->
 
 ## Sample build.gradle File
 
 ``` groovy
 plugins {
-  id "xyz.ronella.dotnet.core" version "2.0.0"
+  id "xyz.ronella.dotnet.core" version "2.0.1"
 }
 
 simple_dotnet.baseDir = project.projectDir.absolutePath
