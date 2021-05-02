@@ -72,6 +72,12 @@ class DotNetTask extends DefaultTask {
             def knownDotNet = stdOutput.toString().trim()
 
             if (knownDotNet.size()>0) {
+                switch (osType) {
+                    case OSType.Windows:
+                        String[] execs = knownDotNet.split("\r\n");
+                        knownDotNet = execs.first();
+                        break;
+                }
                 return knownDotNet
             }
         }
