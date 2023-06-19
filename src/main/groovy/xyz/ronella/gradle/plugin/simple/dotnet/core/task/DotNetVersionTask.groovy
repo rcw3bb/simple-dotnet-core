@@ -6,10 +6,10 @@ package xyz.ronella.gradle.plugin.simple.dotnet.core.task
  * @author Ron Webb
  * @since 2019-11-19
  */
-class DotNetVersionTask extends DotNetTask {
-    public DotNetVersionTask() {
+abstract class DotNetVersionTask extends DotNetTask {
+    DotNetVersionTask() {
         super()
-        description = 'Display .NET Core SDK version is use.'
-        internalArgs += '--version'
+        description = 'Display .NET Core SDK version in use.'
+        internalArgs.add('--version')
     }
 }

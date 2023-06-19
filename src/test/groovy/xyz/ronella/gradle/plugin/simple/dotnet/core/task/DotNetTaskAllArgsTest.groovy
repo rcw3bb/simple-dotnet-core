@@ -21,7 +21,7 @@ class DotNetTaskAllArgsTest {
     public void hasCommandWithNoArgs() {
         DotNetTask netTask = project.tasks.dotnetTask
         netTask.command = 'command'
-        assertEquals(0, netTask.allArgs.length)
+        assertEquals(0, netTask.allArgs.size())
     }
 
     @Test

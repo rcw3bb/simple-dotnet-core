@@ -19,7 +19,7 @@ class DotNetCreateGlobalJsonTaskTest {
 
     @Test
     public void testCommand() {
-        assertEquals('new', project.tasks.dotnetCreateGlobalJson.command)
+        assertEquals('new', project.tasks.dotnetCreateGlobalJson.command.get())
     }
 
     @Test

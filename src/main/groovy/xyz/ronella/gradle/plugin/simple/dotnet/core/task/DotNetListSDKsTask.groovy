@@ -6,10 +6,10 @@ package xyz.ronella.gradle.plugin.simple.dotnet.core.task
  * @author Ron Webb
  * @since 2019-11-20
  */
-class DotNetListSDKsTask extends DotNetTask {
-    public DotNetListSDKsTask() {
+abstract class DotNetListSDKsTask extends DotNetTask {
+    DotNetListSDKsTask() {
         super()
         description = 'Display the installed SDKs.'
-        internalArgs += '--list-sdks'
+        internalArgs.add('--list-sdks')
     }
 }

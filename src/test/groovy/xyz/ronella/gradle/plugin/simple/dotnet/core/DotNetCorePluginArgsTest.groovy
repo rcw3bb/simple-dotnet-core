@@ -20,17 +20,17 @@ class DotNetCorePluginArgsTest {
 
     @Test
     public void testVersionTask() {
-        assertEquals('--version', project.tasks.dotnetVersion.allArgs[0] as String)
+        assertEquals('--version', project.tasks.dotnetVersion.allArgs.get(0) as String)
     }
 
     @Test
     public void testInfoTask() {
-        assertEquals('--info', project.tasks.dotnetInfo.allArgs[0] as String)
+        assertEquals('--info', project.tasks.dotnetInfo.allArgs.get(0) as String)
     }
 
     @Test
     public void testListSDKsTask() {
-        assertEquals('--list-sdks', project.tasks.dotnetListSDKs.allArgs[0] as String)
+        assertEquals('--list-sdks', project.tasks.dotnetListSDKs.allArgs.get(0) as String)
     }
 
 }

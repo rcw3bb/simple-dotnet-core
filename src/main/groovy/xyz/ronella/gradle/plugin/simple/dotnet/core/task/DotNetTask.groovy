@@ -1,7 +1,10 @@
 package xyz.ronella.gradle.plugin.simple.dotnet.core.task
 
 import org.gradle.api.DefaultTask
+import org.gradle.api.provider.ListProperty
+import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 import xyz.ronella.gradle.plugin.simple.dotnet.core.DotNetCorePluginExtension
 import xyz.ronella.gradle.plugin.simple.dotnet.core.DotNetExecutor
@@ -13,27 +16,51 @@ import xyz.ronella.gradle.plugin.simple.dotnet.core.OSType
  * @author Ron Webb
  * @since 2019-11-19
  */
-class DotNetTask extends DefaultTask {
+abstract class DotNetTask extends DefaultTask {
 
-    protected String[] internalArgs = []
-    protected String[] postArguments = []
+    protected ListProperty<String> internalArgs
+    protected ListProperty<String> postArguments
 
-    @Input
-    String command = ''
+    @Optional @Input
+    abstract Property<String> getCommand()
 
-    @Input
-    String[] args = []
+    @Optional @Input
+    abstract ListProperty<String> getArgs()
 
-    public DotNetTask() {
+    DotNetTask() {
         group = 'Simple .NET Core'
         description = 'Execute any available .Net Core SDK command.'
+
+        command.convention('')
+        args.convention([])
+
+        final var objects = project.objects
+
+        internalArgs=objects.listProperty(String.class)
+        postArguments=objects.listProperty(String.class)
+    }
+
+    private void addToNewArgs(final List<String> newArgs, final List<String> list) {
+        if (!list.isEmpty()) {
+            newArgs.addAll(list)
+        }
     }
 
     @Input
-    public String[] getAllArgs() {
-        String[] newArgs = internalArgs + args + postArguments
+    List<String> getAllArgs() {
+        final var newArgs = new ArrayList<String>()
+        final var cmd = command.get()
+        final var tmpList = new ArrayList<String>()
 
-        return (command.length()>0 || newArgs.length > 0) ? newArgs : ['--help']
+        addToNewArgs(newArgs, internalArgs.get())
+        addToNewArgs(newArgs, args.get())
+        addToNewArgs(newArgs, postArguments.get())
+
+        if (cmd.length()==0 && newArgs.isEmpty()) {
+            newArgs.add('--help')
+        }
+
+        return newArgs
     }
 
     private String detectDotNetExec() {
@@ -107,10 +134,10 @@ class DotNetTask extends DefaultTask {
             executor.addKnownDotNetExe(knownDotNet)
         }
 
-        if (command) {
-            executor.addArg(command)
+        if (command.isPresent()) {
+            executor.addArg(command.get())
         }
-        executor.addArgs(allArgs)
+        executor.addArgs(allArgs.toArray(new String[] {}))
             .execute { String ___command, List<String> ___args ->
                 if (null!=___command) {
                     String[] fullCommand = [___command]

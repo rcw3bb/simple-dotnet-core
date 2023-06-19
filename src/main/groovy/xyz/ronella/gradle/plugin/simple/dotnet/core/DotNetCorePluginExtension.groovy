@@ -1,12 +1,14 @@
 package xyz.ronella.gradle.plugin.simple.dotnet.core
 
+import org.gradle.api.provider.Property
+
 /**
  * Support configuration for the plugin.
  *
  * @author Ron Webb
  * @since 2019-11-22
  */
-class DotNetCorePluginExtension {
+abstract class DotNetCorePluginExtension {
 
     /**
      * The main directory of the project where the plugin will work on.
@@ -14,7 +16,7 @@ class DotNetCorePluginExtension {
      * @author Ron Webb
      * @since 2019-11-22
      */
-    public String baseDir
+    abstract Property<String> getBaseDir()
 
     /**
      * Controls the auto installation of the .Net Core SDK.
@@ -22,7 +24,7 @@ class DotNetCorePluginExtension {
      * @author Ron Webb
      * @since 2019-11-22
      */
-    public boolean autoInstall = true
+    abstract Property<Boolean> getAutoInstall()
 
     /**
      * Controls the amount of information displayed on the console.
@@ -30,7 +32,7 @@ class DotNetCorePluginExtension {
      * @author Ron Webb
      * @since 2019-11-22
      */
-    public boolean verbose = false
+    abstract Property<Boolean> getVerbose()
 
     /**
      * Utility method for printing text on the console based on the verbose property.
@@ -39,10 +41,15 @@ class DotNetCorePluginExtension {
      * @author Ron Webb
      * @since 2019-11-22
      */
-    public void writeln(String text) {
-        if (verbose) {
+    void writeln(String text) {
+        if (verbose.get()) {
             println(text)
         }
+    }
+
+    DotNetCorePluginExtension() {
+        autoInstall.convention(true)
+        verbose.convention(false)
     }
 
 }

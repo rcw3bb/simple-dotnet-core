@@ -6,11 +6,11 @@ package xyz.ronella.gradle.plugin.simple.dotnet.core.task
  * @author Ron Webb
  * @since 2019-11-19
  */
-class DotNetNewConsoleTask extends DotNetTask {
-    public DotNetNewConsoleTask() {
+abstract class DotNetNewConsoleTask extends DotNetTask {
+    DotNetNewConsoleTask() {
         super()
         description = 'Create a new .NET Console project.'
-        command = 'new'
-        internalArgs += 'console'
+        command='new'
+        internalArgs.add('console')
     }
 }

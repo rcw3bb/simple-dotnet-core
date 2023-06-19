@@ -6,8 +6,8 @@ package xyz.ronella.gradle.plugin.simple.dotnet.core.task
  * @author Ron Webb
  * @since 2019-11-19
  */
-class DotNetRestoreTask extends DotNetTask {
-    public DotNetRestoreTask() {
+abstract class DotNetRestoreTask extends DotNetTask {
+    DotNetRestoreTask() {
         super()
         description = 'Restore dependencies specified in a .NET project.'
         command = 'restore'

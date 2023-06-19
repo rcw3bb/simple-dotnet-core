@@ -6,8 +6,8 @@ package xyz.ronella.gradle.plugin.simple.dotnet.core.task
  * @author Ron Webb
  * @since 2019-11-19
  */
-class DotNetBuildTask extends DotNetTask {
-    public DotNetBuildTask() {
+abstract class DotNetBuildTask extends DotNetTask {
+    DotNetBuildTask() {
         super()
         description= 'Build a .Net project.'
         command = 'build'

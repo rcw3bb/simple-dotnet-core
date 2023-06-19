@@ -6,8 +6,8 @@ package xyz.ronella.gradle.plugin.simple.dotnet.core.task
  * @author Ron Webb
  * @since 2019-11-19
  */
-class DotNetCleanTask extends DotNetTask {
-    public DotNetCleanTask() {
+abstract class DotNetCleanTask extends DotNetTask {
+    DotNetCleanTask() {
         super()
         description = 'Clean build outputs of a .NET project.'
         command = 'clean'

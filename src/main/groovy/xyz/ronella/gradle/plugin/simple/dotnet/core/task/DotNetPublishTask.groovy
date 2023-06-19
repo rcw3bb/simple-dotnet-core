@@ -6,8 +6,8 @@ package xyz.ronella.gradle.plugin.simple.dotnet.core.task
  * @author Ron Webb
  * @since 2019-11-19
  */
-class DotNetPublishTask extends DotNetTask {
-    public DotNetPublishTask() {
+abstract class DotNetPublishTask extends DotNetTask {
+    DotNetPublishTask() {
         super()
         description = 'Publish a .NET project for deployment.'
         command = 'publish'

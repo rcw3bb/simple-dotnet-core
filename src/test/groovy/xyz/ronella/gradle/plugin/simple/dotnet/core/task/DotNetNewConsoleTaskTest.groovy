@@ -19,12 +19,12 @@ class DotNetNewConsoleTaskTest {
 
     @Test
     public void testCommand() {
-        assertEquals('new', project.tasks.dotnetNewConsole.command)
+        assertEquals('new', project.tasks.dotnetNewConsole.command.get())
     }
 
     @Test
     public void testArgument() {
-        assertEquals('console', project.tasks.dotnetNewConsole.allArgs[0] as String)
+        assertEquals('console', project.tasks.dotnetNewConsole.allArgs.get(0) as String)
     }
 
 }

@@ -6,11 +6,11 @@ package xyz.ronella.gradle.plugin.simple.dotnet.core.task
  * @author Ron Webb
  * @since 2019-11-19
  */
-class DotNetCreateGlobalJsonTask extends DotNetTask {
-    public DotNetCreateGlobalJsonTask() {
+abstract class DotNetCreateGlobalJsonTask extends DotNetTask {
+    DotNetCreateGlobalJsonTask() {
         super()
         description = 'Generate a global.json file.'
         command = 'new'
-        internalArgs += 'globaljson'
+        internalArgs.add('globaljson')
     }
 }

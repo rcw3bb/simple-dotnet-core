@@ -6,8 +6,8 @@ package xyz.ronella.gradle.plugin.simple.dotnet.core.task
  * @author Ron Webb
  * @since 2019-11-19
  */
-class DotNetTestTask extends DotNetTask {
-    public DotNetTestTask() {
+abstract class DotNetTestTask extends DotNetTask {
+    DotNetTestTask() {
         super()
         description = 'Run unit tests using the test runner specified in a .NET project.'
         command = 'test'

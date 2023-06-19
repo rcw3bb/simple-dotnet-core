@@ -21,47 +21,47 @@ class DotNetCorePluginCommandTest {
 
     @Test
     public void testBuildTask() {
-        assertEquals('build', project.tasks.dotnetBuild.command)
+        assertEquals('build', project.tasks.dotnetBuild.command.get())
     }
 
     @Test
     public void testCleanTask() {
-        assertEquals('clean', project.tasks.dotnetClean.command)
+        assertEquals('clean', project.tasks.dotnetClean.command.get())
     }
 
     @Test
     public void testMsBuildTask() {
-        assertEquals('msbuild', project.tasks.dotnetMSBuild.command)
+        assertEquals('msbuild', project.tasks.dotnetMSBuild.command.get())
     }
 
     @Test
     public void testPackTask() {
-        assertEquals('pack', project.tasks.dotnetPack.command)
+        assertEquals('pack', project.tasks.dotnetPack.command.get())
     }
 
     @Test
     public void testPublishTask() {
-        assertEquals('publish', project.tasks.dotnetPublish.command)
+        assertEquals('publish', project.tasks.dotnetPublish.command.get())
     }
 
     @Test
     public void testRestoreTask() {
-        assertEquals('restore', project.tasks.dotnetRestore.command)
+        assertEquals('restore', project.tasks.dotnetRestore.command.get())
     }
 
     @Test
     public void testRunTask() {
-        assertEquals('run', project.tasks.dotnetRun.command)
+        assertEquals('run', project.tasks.dotnetRun.command.get())
     }
 
     @Test
     public void testDotNetTask() {
-        assertEquals('', project.tasks.dotnetTask.command)
+        assertEquals('', project.tasks.dotnetTask.command.get())
     }
 
     @Test
     public void testTestTask() {
-        assertEquals('test', project.tasks.dotnetTest.command)
+        assertEquals('test', project.tasks.dotnetTest.command.get())
     }
 
     @Test

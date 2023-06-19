@@ -6,10 +6,10 @@ package xyz.ronella.gradle.plugin.simple.dotnet.core.task
  * @author Ron Webb
  * @since 2019-11-19
  */
-class DotNetInfoTask extends DotNetTask {
-    public DotNetInfoTask() {
+abstract class DotNetInfoTask extends DotNetTask {
+    DotNetInfoTask() {
         super()
         description = 'Display .NET Core information.'
-        internalArgs += '--info'
+        internalArgs.add('--info')
     }
 }

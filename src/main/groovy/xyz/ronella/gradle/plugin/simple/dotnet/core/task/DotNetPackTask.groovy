@@ -6,8 +6,8 @@ package xyz.ronella.gradle.plugin.simple.dotnet.core.task
  * @author Ron Webb
  * @since 2019-11-19
  */
-class DotNetPackTask extends DotNetTask {
-    public DotNetPackTask() {
+abstract class DotNetPackTask extends DotNetTask {
+    DotNetPackTask() {
         super()
         description = 'Create a NuGet package.'
         command = 'pack'
