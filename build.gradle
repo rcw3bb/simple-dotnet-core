@@ -3,6 +3,7 @@ plugins {
     id 'groovy'
     id 'java-gradle-plugin'
     id 'com.gradle.plugin-publish' version '1.2.0'
+    id 'maven-publish'
 }
 
 pluginBundle {
@@ -19,6 +20,18 @@ gradlePlugin {
             displayName = 'Simple .Net Core Gradle Plugin'
             description = 'The plugin that allows you access to dotnet commands inside gradle as task'
             implementationClass = 'xyz.ronella.gradle.plugin.simple.dotnet.core.DotNetCorePlugin'
+        }
+    }
+}
+
+publishing {
+    publications {
+        repositories.maven {
+            url "https://repo.ronella.xyz/artifactory/${version.toString().contains("SNAPSHOT") ? 'mvn-snapshots' : 'mvn-releases'}"
+            credentials {
+                username "${artifactoryUsername}"
+                password "${artifactoryPassword}"
+            }
         }
     }
 }
