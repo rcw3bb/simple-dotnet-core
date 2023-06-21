@@ -10,6 +10,6 @@ abstract class DotNetBuildTask extends DotNetTask {
     DotNetBuildTask() {
         super()
         description= 'Build a .Net project.'
-        command = 'build'
+        command.set('build')
     }
 }

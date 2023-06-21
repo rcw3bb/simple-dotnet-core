@@ -10,6 +10,6 @@ abstract class DotNetMSBuildTask extends DotNetTask {
     DotNetMSBuildTask() {
         super()
         description = 'Run Microsoft Build Engine (MSBuild) command.'
-        command = 'msbuild'
+        command.set('msbuild')
     }
 }

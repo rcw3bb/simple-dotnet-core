@@ -10,6 +10,6 @@ abstract class DotNetPublishTask extends DotNetTask {
     DotNetPublishTask() {
         super()
         description = 'Publish a .NET project for deployment.'
-        command = 'publish'
+        command.set('publish')
     }
 }

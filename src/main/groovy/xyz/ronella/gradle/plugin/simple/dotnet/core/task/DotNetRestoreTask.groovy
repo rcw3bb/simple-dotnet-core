@@ -10,6 +10,6 @@ abstract class DotNetRestoreTask extends DotNetTask {
     DotNetRestoreTask() {
         super()
         description = 'Restore dependencies specified in a .NET project.'
-        command = 'restore'
+        command.set('restore')
     }
 }

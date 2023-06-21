@@ -10,6 +10,6 @@ abstract class DotNetRunTask extends DotNetTask {
     DotNetRunTask() {
         super()
         description = 'Build and run a .NET project output.'
-        command = 'run'
+        command.set('run')
     }
 }

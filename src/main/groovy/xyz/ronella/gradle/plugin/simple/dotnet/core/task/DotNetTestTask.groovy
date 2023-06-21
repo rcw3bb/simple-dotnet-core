@@ -10,6 +10,6 @@ abstract class DotNetTestTask extends DotNetTask {
     DotNetTestTask() {
         super()
         description = 'Run unit tests using the test runner specified in a .NET project.'
-        command = 'test'
+        command.set('test')
     }
 }

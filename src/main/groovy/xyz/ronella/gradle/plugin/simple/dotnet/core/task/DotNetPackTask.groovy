@@ -10,6 +10,6 @@ abstract class DotNetPackTask extends DotNetTask {
     DotNetPackTask() {
         super()
         description = 'Create a NuGet package.'
-        command = 'pack'
+        command.set('pack')
     }
 }

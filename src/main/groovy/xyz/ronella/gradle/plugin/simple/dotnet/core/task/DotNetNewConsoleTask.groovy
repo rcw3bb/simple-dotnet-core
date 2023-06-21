@@ -10,7 +10,7 @@ abstract class DotNetNewConsoleTask extends DotNetTask {
     DotNetNewConsoleTask() {
         super()
         description = 'Create a new .NET Console project.'
-        command='new'
+        command.set('new')
         internalArgs.add('console')
     }
 }

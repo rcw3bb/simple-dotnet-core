@@ -10,7 +10,7 @@ abstract class DotNetCreateGlobalJsonTask extends DotNetTask {
     DotNetCreateGlobalJsonTask() {
         super()
         description = 'Generate a global.json file.'
-        command = 'new'
+        command.set('new')
         internalArgs.add('globaljson')
     }
 }

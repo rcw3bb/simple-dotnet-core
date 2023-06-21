@@ -10,6 +10,6 @@ abstract class DotNetCleanTask extends DotNetTask {
     DotNetCleanTask() {
         super()
         description = 'Clean build outputs of a .NET project.'
-        command = 'clean'
+        command.set('clean')
     }
 }

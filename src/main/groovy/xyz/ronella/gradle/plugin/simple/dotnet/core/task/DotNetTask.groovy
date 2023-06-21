@@ -50,7 +50,6 @@ abstract class DotNetTask extends DefaultTask {
     List<String> getAllArgs() {
         final var newArgs = new ArrayList<String>()
         final var cmd = command.get()
-        final var tmpList = new ArrayList<String>()
 
         addToNewArgs(newArgs, internalArgs.get())
         addToNewArgs(newArgs, args.get())
@@ -101,9 +100,9 @@ abstract class DotNetTask extends DefaultTask {
             if (knownDotNet.size()>0) {
                 switch (osType) {
                     case OSType.Windows:
-                        String[] execs = knownDotNet.split("\r\n");
-                        knownDotNet = execs.first();
-                        break;
+                        String[] execs = knownDotNet.split("\r\n")
+                        knownDotNet = execs.first()
+                        break
                 }
                 return knownDotNet
             }
@@ -115,8 +114,8 @@ abstract class DotNetTask extends DefaultTask {
     @TaskAction
     def executeCommand() {
         DotNetCorePluginExtension pluginExt = project.extensions.simple_dotnet;
-        boolean autoInstall = pluginExt.autoInstall;
-        String baseDir = pluginExt.baseDir
+        boolean autoInstall = pluginExt.autoInstall.getOrElse(true)
+        String baseDir = pluginExt.baseDir.getOrNull()
 
         if (autoInstall && null==baseDir) {
             baseDir = project.projectDir.absolutePath
@@ -135,7 +134,10 @@ abstract class DotNetTask extends DefaultTask {
         }
 
         if (command.isPresent()) {
-            executor.addArg(command.get())
+            final var cmd = command.get().trim()
+            if (cmd.length()>0) {
+                executor.addArg(cmd)
+            }
         }
         executor.addArgs(allArgs.toArray(new String[] {}))
             .execute { String ___command, List<String> ___args ->
