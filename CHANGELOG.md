@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.0 : 2023-06-22
+
+### Change
+
+* Refactored to use lazy configuration of gradle 7.
+
 ## 2.0.1 : 2021-05-02
 
 ### Fix
