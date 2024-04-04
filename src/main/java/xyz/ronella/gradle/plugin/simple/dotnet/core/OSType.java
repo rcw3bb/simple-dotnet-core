@@ -9,6 +9,7 @@ package xyz.ronella.gradle.plugin.simple.dotnet.core;
 public enum OSType {
     Windows("dotnet.exe", "dotnet-install.ps1"),
     Linux("dotnet", "dotnet-install.sh"),
+    MacOS("dotnet", "dotnet-install.sh"),
     Unknown(null, null);
 
     private String scriptName;
@@ -38,6 +39,9 @@ public enum OSType {
         }
         else if (osName.contains("nux")) {
             return OSType.Linux;
+        }
+        else if (osName.contains("mac")) {
+            return OSType.MacOS;
         }
         return OSType.Unknown;
     }

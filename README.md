@@ -5,7 +5,7 @@ The plugin that allows you access to dotnet commands inside gradle as task.
 ## Pre-requisite
 
 * Java 8 (Minimum)
-* Windows OS/Linux
+* Windows OS/Linux/MacOS
 
 ## Plugging in the simple-dotnet-core
 

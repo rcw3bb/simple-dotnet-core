@@ -2,6 +2,7 @@ package xyz.ronella.gradle.plugin.simple.dotnet.core;
 
 import groovy.json.JsonSlurper;
 
+import xyz.ronella.gradle.plugin.simple.dotnet.core.install.MacOS;
 import xyz.ronella.gradle.plugin.simple.dotnet.core.install.Windows;
 import xyz.ronella.gradle.plugin.simple.dotnet.core.install.Linux;
 
@@ -73,6 +74,7 @@ public class DotNetCoreSDKInstaller {
                 Files.copy(isStream, outputScript);
                 switch (DotNetExecutor.OS_TYPE) {
                     case Linux:
+                    case MacOS:
                         makeExecutable(outputScript.toString());
                         break;
                 }
@@ -156,6 +158,7 @@ public class DotNetCoreSDKInstaller {
 
                 commands.put(OSType.Windows,new Windows(pathInstaller, pathInstallDir, version));
                 commands.put(OSType.Linux,new Linux(pathInstaller, pathInstallDir, version));
+                commands.put(OSType.MacOS,new MacOS(pathInstaller, pathInstallDir, version));
 
                 List<String> command = commands.get(osType).get();
 
