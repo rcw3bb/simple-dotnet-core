@@ -124,7 +124,7 @@ task publishToExe(type: DotNetPublishTask) {
 
 ``` groovy
 plugins {
-  id "xyz.ronella.dotnet.core" version "3.0.0"
+  id "xyz.ronella.dotnet.core" version "3.1.0"
 }
 
 simple_dotnet.baseDir = project.projectDir.absolutePath
