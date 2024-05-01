@@ -142,7 +142,7 @@ dotnetPublish {
 }
 ```
 
-## Author
+## Authors
 
 * Ronaldo Webb
 * Martin Rossland
