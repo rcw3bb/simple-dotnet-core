@@ -13,7 +13,7 @@ In your **build.gradle** file add the following plugin:
 
 ```groovy
 plugins {
-    id "xyz.ronella.dotnet.core" version "3.0.0"
+    id "xyz.ronella.dotnet.core" version "3.1.0"
 }
 ```
 
@@ -145,6 +145,7 @@ dotnetPublish {
 ## Author
 
 * Ronaldo Webb
+* Martin Rossland
 
 ## License
 

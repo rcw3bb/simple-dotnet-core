@@ -8,8 +8,8 @@ import java.util.function.Supplier;
 /**
  * The class that supplies the command for MacOS.
  *
- * @author Ron Webb
- * @since 2020-04-11
+ * @author Martin Rossland
+ * @since 2024-05-01
  */
 public class MacOS implements Supplier<List<String>> {
 
