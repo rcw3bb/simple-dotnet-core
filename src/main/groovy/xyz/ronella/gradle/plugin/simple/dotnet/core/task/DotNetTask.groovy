@@ -72,7 +72,7 @@ abstract class DotNetTask extends DefaultTask {
             case OSType.Windows:
                 cmd="where"
                 break;
-            case OSType.Linux:
+            case [OSType.Linux, OSType.MacOS]:
                 cmd="which"
                 break;
         }
@@ -153,7 +153,7 @@ abstract class DotNetTask extends DefaultTask {
                     }
                 }
                 else {
-                    println("Either the simple_dotnet.autoInstall property was set to false or you are not in a windows or linux operating system.")
+                    println("Either the simple_dotnet.autoInstall property was set to false or you are not in a windows, linux or macos operating system.")
                     println("Please install a .Net Core SDK manually and must be accessible via PATH environment variable")
                 }
             };

@@ -16,6 +16,11 @@ public class OSTypeTest {
     }
 
     @Test
+    public void testMacOSScript() {
+        assertEquals("dotnet-install.sh", OSType.MacOS.getScriptName());
+    }
+
+    @Test
     public void testUknownScript() {
         assertNull(OSType.Unknown.getScriptName());
     }
@@ -31,6 +36,11 @@ public class OSTypeTest {
     }
 
     @Test
+    public void testMacOSExecutable() {
+        assertEquals("dotnet", OSType.MacOS.getExecutable());
+    }
+
+    @Test
     public void testUknownExecutable() {
         assertNull(OSType.Unknown.getExecutable());
     }
@@ -43,6 +53,11 @@ public class OSTypeTest {
     @Test
     public void testLinuxCanInstall() {
         assertTrue(OSType.Linux.canInstall());
+    }
+
+    @Test
+    public void testMacOSCanInstall() {
+        assertTrue(OSType.MacOS.canInstall());
     }
 
     @Test

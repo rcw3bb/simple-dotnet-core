@@ -5,7 +5,7 @@ The plugin that allows you access to dotnet commands inside gradle as task.
 ## Pre-requisite
 
 * Java 8 (Minimum)
-* Windows OS/Linux
+* Windows OS/Linux/MacOS
 
 ## Plugging in the simple-dotnet-core
 
@@ -124,7 +124,7 @@ task publishToExe(type: DotNetPublishTask) {
 
 ``` groovy
 plugins {
-  id "xyz.ronella.dotnet.core" version "3.0.0"
+  id "xyz.ronella.dotnet.core" version "3.1.0"
 }
 
 simple_dotnet.baseDir = project.projectDir.absolutePath

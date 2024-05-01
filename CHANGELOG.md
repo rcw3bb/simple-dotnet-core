@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.1.0 : 2024-04-20
+
+### Change
+
+* Added support for MacOS.
+
 ## 3.0.0 : 2023-06-22
 
 ### Change

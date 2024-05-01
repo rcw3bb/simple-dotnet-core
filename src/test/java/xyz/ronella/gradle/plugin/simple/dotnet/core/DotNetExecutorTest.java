@@ -19,7 +19,7 @@ public class DotNetExecutorTest {
     @Test
     public void testNoArgument() {
         String command = getDotNetExecutorBuilder().getCommand();
-        assertTrue(command.matches(".*dotnet.exe$"));
+        assertTrue(command.matches(".*dotnet(\\.exe|)$"));
     }
 
     @Test
@@ -27,7 +27,7 @@ public class DotNetExecutorTest {
         String command = getDotNetExecutorBuilder()
                 .addArgs("arg1")
                 .getCommand();
-        assertTrue(command.matches(".*dotnet.exe arg1$"));
+        assertTrue(command.matches(".*dotnet(\\.exe|) arg1$"));
     }
 
     @Test
@@ -35,7 +35,7 @@ public class DotNetExecutorTest {
         String command = getDotNetExecutorBuilder()
                 .addArgs("arg1", "arg2")
                 .getCommand();
-        assertTrue(command.matches(".*dotnet.exe arg1 arg2$"));
+        assertTrue(command.matches(".*dotnet(\\.exe|) arg1 arg2$"));
     }
 
     @Test
@@ -44,7 +44,7 @@ public class DotNetExecutorTest {
                 .addArgs("arg1")
                 .addArgs("arg2")
                 .getCommand();
-        assertTrue(command.matches(".*dotnet.exe arg1 arg2$"));
+        assertTrue(command.matches(".*dotnet(\\.exe|) arg1 arg2$"));
     }
 
     @Test
@@ -58,7 +58,7 @@ public class DotNetExecutorTest {
                     command.append(___command);
                     args.append(String.join(" ", ___args));
                 });
-        assertTrue(command.toString().matches(".*dotnet.exe$"));
+        assertTrue(command.toString().matches(".*dotnet(\\.exe|)$"));
     }
 
     @Test
