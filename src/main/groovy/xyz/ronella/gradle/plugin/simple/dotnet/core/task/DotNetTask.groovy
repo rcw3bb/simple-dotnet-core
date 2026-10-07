@@ -1,14 +1,19 @@
 package xyz.ronella.gradle.plugin.simple.dotnet.core.task
 
 import org.gradle.api.DefaultTask
+import org.gradle.api.file.ProjectLayout
+import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
+import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
-import xyz.ronella.gradle.plugin.simple.dotnet.core.DotNetCorePluginExtension
+import org.gradle.process.ExecOperations
 import xyz.ronella.gradle.plugin.simple.dotnet.core.DotNetExecutor
 import xyz.ronella.gradle.plugin.simple.dotnet.core.OSType
+
+import javax.inject.Inject
 
 /**
  * The base task implementation.
@@ -27,6 +32,35 @@ abstract class DotNetTask extends DefaultTask {
     @Optional @Input
     abstract ListProperty<String> getArgs()
 
+    /**
+     * The autoInstall value sourced (by convention) from the simple_dotnet extension.
+     * Kept as a task property (instead of reaching into the extension at execution time)
+     * so that this task remains compatible with the Gradle configuration cache.
+     */
+    @Internal
+    abstract Property<Boolean> getAutoInstall()
+
+    /**
+     * The baseDir value sourced (by convention) from the simple_dotnet extension.
+     */
+    @Internal
+    abstract Property<String> getBaseDir()
+
+    /**
+     * The verbose value sourced (by convention) from the simple_dotnet extension.
+     */
+    @Internal
+    abstract Property<Boolean> getVerbose()
+
+    @Inject
+    protected abstract ObjectFactory getObjectFactory()
+
+    @Inject
+    protected abstract ExecOperations getExecOperations()
+
+    @Inject
+    protected abstract ProjectLayout getProjectLayout()
+
     DotNetTask() {
         group = 'Simple .NET Core'
         description = 'Execute any available .Net Core SDK command.'
@@ -34,15 +68,30 @@ abstract class DotNetTask extends DefaultTask {
         command.convention('')
         args.convention([])
 
-        final var objects = project.objects
+        internalArgs=objectFactory.listProperty(String.class)
+        postArguments=objectFactory.listProperty(String.class)
+    }
 
-        internalArgs=objects.listProperty(String.class)
-        postArguments=objects.listProperty(String.class)
+    /**
+     * Utility method for printing text on the console based on the verbose property.
+     * @param text The value to be printed.
+     */
+    protected void writeln(String text) {
+        if (verbose.getOrElse(false)) {
+            println(text)
+        }
     }
 
     private void addToNewArgs(final List<String> newArgs, final List<String> list) {
         if (!list.isEmpty()) {
-            newArgs.addAll(list)
+            // Coerce each element to a genuine java.lang.String. Groovy allows GString (and other
+            // CharSequence) instances to be stored in a List<String> at runtime despite the generic
+            // type, since generics are erased and Gradle's ListProperty does not validate/convert
+            // element types on assignment. Without this coercion, allArgs.toArray(new String[]{})
+            // below throws an ArrayStoreException ("arraycopy: element type mismatch") as soon as a
+            // consumer's args list contains an interpolated GString (e.g. "-property:Foo=${bar}"),
+            // which is an idiomatic and common pattern in Gradle build scripts.
+            list.each { newArgs.add(it.toString()) }
         }
     }
 
@@ -63,8 +112,6 @@ abstract class DotNetTask extends DefaultTask {
     }
 
     private String detectDotNetExec() {
-        DotNetCorePluginExtension pluginExt = project.extensions.simple_dotnet;
-
         def osType = DotNetExecutor.OS_TYPE
         def dotnetExec = DotNetExecutor.DOTNET_EXE
         String cmd = null
@@ -81,7 +128,7 @@ abstract class DotNetTask extends DefaultTask {
             def stdOutput = new ByteArrayOutputStream()
             def errOutput = new ByteArrayOutputStream()
 
-            project.exec {
+            execOperations.exec {
                 executable cmd
                 args dotnetExec
                 standardOutput = stdOutput
@@ -113,28 +160,30 @@ abstract class DotNetTask extends DefaultTask {
 
     @TaskAction
     def executeCommand() {
-        DotNetCorePluginExtension pluginExt = project.extensions.simple_dotnet;
-        boolean autoInstall = pluginExt.autoInstall.getOrElse(true)
-        String baseDir = pluginExt.baseDir.getOrNull()
+        boolean isAutoInstall = autoInstall.getOrElse(true)
+        String theBaseDir = baseDir.getOrNull()
 
-        if (autoInstall && null==baseDir) {
-            baseDir = project.projectDir.absolutePath
-            println("Using ${baseDir} as baseDir.")
+        if (isAutoInstall && null==theBaseDir) {
+            theBaseDir = projectLayout.projectDirectory.asFile.absolutePath
+            println("Using ${theBaseDir} as baseDir.")
         }
 
         def knownDotNet = detectDotNetExec()
         def executor = DotNetExecutor.getBuilder()
 
-        executor.addAutoInstall(autoInstall)
-                .addBaseDir(baseDir)
+        executor.addAutoInstall(isAutoInstall)
+                .addBaseDir(theBaseDir)
 
         if (knownDotNet!=null) {
-            pluginExt.writeln("Known dotnet location in PATH: ${knownDotNet}")
+            writeln("Known dotnet location in PATH: ${knownDotNet}")
             executor.addKnownDotNetExe(knownDotNet)
         }
 
         if (command.isPresent()) {
-            final var cmd = command.get().trim()
+            // Coerce to a genuine String for the same reason as addToNewArgs() above: command may
+            // have been assigned a GString (e.g. command = "${foo}"), and downstream consumers of
+            // this value (e.g. DotNetExecutor) assume a plain java.lang.String.
+            final var cmd = command.get().toString().trim()
             if (cmd.length()>0) {
                 executor.addArg(cmd)
             }
@@ -145,10 +194,10 @@ abstract class DotNetTask extends DefaultTask {
                     String[] fullCommand = [___command]
                     fullCommand += ___args.toArray()
 
-                    pluginExt.writeln("OS: ${System.getProperty('os.name')}")
-                    pluginExt.writeln("Command to execute: ${fullCommand.join(' ')}")
+                    writeln("OS: ${System.getProperty('os.name')}")
+                    writeln("Command to execute: ${fullCommand.join(' ')}")
 
-                    project.exec {
+                    execOperations.exec {
                         commandLine fullCommand
                     }
                 }
@@ -159,3 +208,6 @@ abstract class DotNetTask extends DefaultTask {
             };
     }
 }
+
+
+
