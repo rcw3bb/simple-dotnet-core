@@ -1,5 +1,16 @@
 # Changelog
 
+## 3.2.0 : 2026-10-14
+
+### Change
+
+* Add support for the Gradle configuration cache. (Mark Lundberg)
+
+### Fix
+
+* Allow GString in the `args` or `command` properties. (Mark Lundberg)
+* Make the gradlew script executable  (Mark Lundberg)
+
 ## 3.1.0 : 2024-04-20
 
 ### Change

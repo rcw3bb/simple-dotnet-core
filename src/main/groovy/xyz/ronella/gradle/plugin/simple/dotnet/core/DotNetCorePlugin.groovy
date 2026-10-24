@@ -28,19 +28,26 @@ class DotNetCorePlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
         def extension = project.extensions.create('simple_dotnet', DotNetCorePluginExtension)
-        project.task('dotnetBuild', type: DotNetBuildTask)
-        project.task('dotnetClean', type: DotNetCleanTask)
-        project.task('dotnetInfo', type: DotNetInfoTask)
-        project.task('dotnetMSBuild', type: DotNetMSBuildTask)
-        project.task('dotnetNewConsole', type: DotNetNewConsoleTask)
-        project.task('dotnetPack', type: DotNetPackTask)
-        project.task('dotnetPublish', type: DotNetPublishTask)
-        project.task('dotnetRestore', type: DotNetRestoreTask)
-        project.task('dotnetTask', type: DotNetTask)
-        project.task('dotnetTest', type: DotNetTestTask)
-        project.task('dotnetVersion', type: DotNetVersionTask)
-        project.task('dotnetRun', type: DotNetRunTask)
-        project.task('dotnetCreateGlobalJson', type: DotNetCreateGlobalJsonTask)
-        project.task('dotnetListSDKs', type: DotNetListSDKsTask)
+
+        project.tasks.withType(DotNetTask).configureEach { task ->
+            task.autoInstall.convention(extension.autoInstall)
+            task.baseDir.convention(extension.baseDir)
+            task.verbose.convention(extension.verbose)
+        }
+
+        project.tasks.register('dotnetBuild', DotNetBuildTask)
+        project.tasks.register('dotnetClean', DotNetCleanTask)
+        project.tasks.register('dotnetInfo', DotNetInfoTask)
+        project.tasks.register('dotnetMSBuild', DotNetMSBuildTask)
+        project.tasks.register('dotnetNewConsole', DotNetNewConsoleTask)
+        project.tasks.register('dotnetPack', DotNetPackTask)
+        project.tasks.register('dotnetPublish', DotNetPublishTask)
+        project.tasks.register('dotnetRestore', DotNetRestoreTask)
+        project.tasks.register('dotnetTask', DotNetTask)
+        project.tasks.register('dotnetTest', DotNetTestTask)
+        project.tasks.register('dotnetVersion', DotNetVersionTask)
+        project.tasks.register('dotnetRun', DotNetRunTask)
+        project.tasks.register('dotnetCreateGlobalJson', DotNetCreateGlobalJsonTask)
+        project.tasks.register('dotnetListSDKs', DotNetListSDKsTask)
     }
 }
